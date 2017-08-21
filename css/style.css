@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Helvetica, Arial, Sans-Serif;
+    font-family: Lato;
 }
 
 .top {
@@ -16,7 +16,7 @@ body {
     margin: 0;
     padding: 0;
     z-index: 999;
-    background: #2196F3;
+    background: #1976D2;
 }
 
 .main {
@@ -32,29 +32,36 @@ body {
     justify-content: flex-start;
 }
 
-.stackHorizontal .title, .stackHorizontal .button {
+.stackHorizontal .title, .stackHorizontal .button, .stackHorizontal .icon, .stackHorizontal .text {
     height: 48px;
     min-width: 56px;
     font-size: 17px;
     line-height: 48px;
-    color: white;
 }
 
 .stackHorizontal .title {
+    color: white;
     text-align: left;
     padding-left: 15px;
     padding-right: 15px;
 }
-.stackHorizontal .title.accent {
-    color: black;
+
+.stackHorizontal .icon {
+    text-align: center;
+}
+
+.stackHorizontal .text {
+    padding-left: 15px;
+    text-align: left;
 }
 
 
 .stackHorizontal .button {
+    color: white;
     text-align: center;
 }
 .stackHorizontal .button:hover{
-    background: #41a5f5;
+    background: #2887e5;
 }
 
 
@@ -77,22 +84,46 @@ body {
 
 .stackHorizontal.clickable.selected {
     color: white;
-    background: #2196F3;
+    background: #1976D2;
 }
 .stackHorizontal.clickable.selected:hover {
-    background: #41a5f5;
+    background: #2887e5;
+}
+
+table tr * {
+    text-align: center;
+}
+
+table tr .store {
+    width: 20%;
+}
+
+table tr .date {
+    width: 30%;
+}
+
+table tr .total {
+    width: 30%;
+}
+
+table tr .details {
+    width: 20%;
 }
 
 
-
-
-
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.bigText {
+    font-size: 15px;
 }
+
+.normalText {
+    font-size: 11px;
+}
+
+.smallText {
+    font-size: 9px;
+}
+
+
 
 .itemTitle {
     font-weight: bold;

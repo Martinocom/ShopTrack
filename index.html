@@ -9,8 +9,9 @@
     <script src="scripts/sidemenu_script.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!--<link rel="stylesheet" type="text/css" href="css/menu_style.css">-->
+    <link rel="stylesheet" type="text/css" href="css/table_style.css">
     <link rel="stylesheet" type="text/css" href="css/sidemenu_style.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,20 +20,20 @@
 <body>
     <div id="sideMenu" class="sideMenu">      
         <div class="stackHorizontal clickable selected">
-                <div class="title accent"><i class="fa fa-home" aria-hidden="true"></i></div>
-                <div class="title accent">Home</div>
+                <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="text">Home</div>
         </div>
         <div class="stackHorizontal clickable">
-                <div class="title accent"><i class="fa fa-file-o" aria-hidden="true"></i></div>
-                <div class="title accent">Bozze</div>
+                <div class="icon"><i class="fa fa-file-o" aria-hidden="true"></i></div>
+                <div class="text">Bozze</div>
         </div>
         <div class="stackHorizontal clickable">
-                <div class="title accent"><i class="fa fa-money" aria-hidden="true"></i></div>
-                <div class="title accent">Debiti</div>
+                <div class="icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+                <div class="text">Debiti</div>
         </div>
         <div class="stackHorizontal clickable">
-                <div class="title accent"><i class="fa fa-info" aria-hidden="true"></i></div>
-                <div class="title accent">Info</div>
+                <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+                <div class="text">Info</div>
         </div>
     </div>
 
@@ -51,26 +52,115 @@
 
 
         <div id="content" class="content">
-            <ul id="orders">
-                <li>
-                    <div class="topMenu">
-                        <div><img src="images/icons/aliexpress.png" width="32" height="32"/></div>
-                        <div class="complex">
-                            <span class="itemTitle">20/08/2017</span><br/>
-                            <span>Ordinato: 20 agosto 2017</span><br/>
-                            <span>Arriverà: 20 ottobre 2017</span><br/>
-                            <span>Totale: 10,00€</span><br/>
+            <table class="flatTable">
+                <tr class="headingTr">
+                    <td>STORE</td>
+                    <td>DATA</td>
+                    <td>TOTALE</td>
+                    <td>STATO</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>                        
+                        <span id="number" class="smallText">0</span><br/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
+                    </td>
+                    <td>
+                        <span id="date" class="bigText">21/08/2017</span><br/>
+                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
+                    </td>
+                    <td>                        
+                        <span id="datePrev" class="bigText">10,99€</span><br/>       
+                    </td>
+                    <td>
+                        <div>
+                            <i class="fa fa-shopping-bag" aria-hidden="true">10</i><br/>
+                            <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true">3</i><br/>
+                            <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true">7</i><br/>
                         </div>
+                    </td>
+                    <td class="controlTd">
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>                        
+                        <span id="number" class="smallText">0</span><br/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
+                    </td>
+                    <td>
+                        <span id="date" class="bigText">21/08/2017</span><br/>
+                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
+                    </td>
+                    <td>                        
+                        <span id="datePrev" class="bigText">10,99€</span><br/>       
+                    </td>
+                    <td>
+                        <div>
+                            <i class="fa fa-shopping-bag" aria-hidden="true">10</i><br/>
+                            <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true">3</i><br/>
+                            <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true">7</i><br/>
+                        </div>
+                    </td>
+                    <td class="controlTd">
+                    </td>
+                </tr>
 
-                        <div class="complex">
-                            <span class="itemTitle">9  X</span><br/>
-                            <span>5  X</span><br/>
-                            <span>3  X</span><br/>
-                            <span>3  X</span><br/>
+                <tr>
+                    <td>                        
+                        <span id="number" class="smallText">0</span><br/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
+                    </td>
+                    <td>
+                        <span id="date" class="bigText">21/08/2017</span><br/>
+                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
+                    </td>
+                    <td>                        
+                        <span id="datePrev" class="bigText">10,99€</span><br/>       
+                    </td>
+                    <td>
+                        <div>
+                            <i class="fa fa-shopping-bag" aria-hidden="true">10</i><br/>
+                            <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true">3</i><br/>
+                            <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true">7</i><br/>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </td>
+                    <td class="controlTd">
+                    </td>
+                </tr>
+
+                    
+             </table>
+                      
+            <!--
+            <table>
+                <tr>
+                    <th class="store">Store</th>
+                    <th class="date">Data Ordine</th>
+                    <th class="total">Totale</th>
+                    <th class="details">Dettagli</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span id="number" class="smallText">0</span><br/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
+                    </td>
+                    <td>
+                        <span id="date" class="bigText">21/08/2017</span><br/>
+                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
+                    </td>
+                    <td>
+                        <span id="datePrev" class="bigText">10,99€</span><br/>
+
+                        <div class="stackHorizontal">
+                            <div class="icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+                            <div class="text"> <span class="normalText" id="persons">3</span></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>-->
         </div>
     </div>
 
