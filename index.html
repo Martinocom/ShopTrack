@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+
+<html ng-app>
+
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="scripts/sidemenu_script.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/menu_style.css">-->
+    <link rel="stylesheet" type="text/css" href="css/sidemenu_style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="sideMenu" class="sideMenu">      
+        <div class="stackHorizontal clickable selected">
+                <div class="title accent"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="title accent">Home</div>
+        </div>
+        <div class="stackHorizontal clickable">
+                <div class="title accent"><i class="fa fa-file-o" aria-hidden="true"></i></div>
+                <div class="title accent">Bozze</div>
+        </div>
+        <div class="stackHorizontal clickable">
+                <div class="title accent"><i class="fa fa-money" aria-hidden="true"></i></div>
+                <div class="title accent">Debiti</div>
+        </div>
+        <div class="stackHorizontal clickable">
+                <div class="title accent"><i class="fa fa-info" aria-hidden="true"></i></div>
+                <div class="title accent">Info</div>
+        </div>
+    </div>
+
+    <div id="main" class="main">
+        <div class="top">
+            <div class="stackHorizontal">
+                <div class="button" onclick="openNav()"><i id="menuOpener" class="fa fa-bars" aria-hidden="true"></i></div>
+                <div class="title"><span id="debug"></span>Home</div>
+            </div>
+
+            <div class="stackHorizontal">
+                <div class="button"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                <div class="button accent"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+            </div>
+        </div>
+
+
+        <div id="content" class="content">
+            <ul id="orders">
+                <li>
+                    <div class="topMenu">
+                        <div><img src="images/icons/aliexpress.png" width="32" height="32"/></div>
+                        <div class="complex">
+                            <span class="itemTitle">20/08/2017</span><br/>
+                            <span>Ordinato: 20 agosto 2017</span><br/>
+                            <span>Arriverà: 20 ottobre 2017</span><br/>
+                            <span>Totale: 10,00€</span><br/>
+                        </div>
+
+                        <div class="complex">
+                            <span class="itemTitle">9  X</span><br/>
+                            <span>5  X</span><br/>
+                            <span>3  X</span><br/>
+                            <span>3  X</span><br/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+    <script>
+        /*
+        var config = {
+            apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
+            authDomain: "shoptrack-658c5.firebaseapp.com",
+            databaseURL: "https://shoptrack-658c5.firebaseio.com",
+            projectId: "shoptrack-658c5",
+            storageBucket: "shoptrack-658c5.appspot.com",
+            messagingSenderId: "123504057587"
+            };
+
+        firebase.initializeApp(config);
+
+        var orders = firebase.database().ref('orders');
+
+        orders.on("value", function(snapshot) {
+            var data = snapshot.val();
+            var list = [];
+            console.log(data);
+            console.log("-----");
+            for (var key in data) {
+                console.log(key);
+
+                if (data.hasOwnProperty(key)) {
+                    list.push({
+                        key: key,
+                        store: getStore(data[key].Store),
+                        date: data[key].Date,
+                        datePrev: data[key].DatePrev
+                    })
+                }
+            }
+
+            console.log(list);
+
+            // refresh the UI
+            var lis = '';
+            for (var i = 0; i < list.length; i++) {
+                lis += createElement(list[i]);
+            };
+            document.getElementById('orders').innerHTML = lis;
+        });
+
+
+        function getStore(id) {
+            switch(id){
+                case 0: return "Aliexpress"; break;
+                case 1: return "Gearbest"; break;
+                case 2: return "Amazon"; break;
+                case 3: return "eBay"; break;
+                case 4: return "Girada"; break;
+                default: return "NoStore";
+            }
+        }
+
+
+        function createElement(element){
+            var lis = "<li><div class='topMenu'>";
+            lis += "<div> " + element.key + " </div>";
+            lis += "<div> | " + element.store + " </div>";
+            lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
+            lis += "<div> | 0,00€  </div>";
+            lis += "</div></li>";
+
+            return lis;
+        }*/
+    </script>
+</body>
+
+</html>

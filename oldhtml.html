@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title>Gestione Attività</title>
+		
+		<link rel="stylesheet" href="../_scripts/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../_scripts/calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20051112" media="screen" />
+		<script type="text/javascript" src="../_scripts/calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js?random=20051112"></script>
+		<!--<script src="../_scripts/jquery-1.11.3.min.js"></script>-->
+		<script src="../_scripts/jquery-3.2.0.min.js"></script>
+			
+		<script>
+			var rows = new Array(100); 			//Array che contiene tutti gli elementi selezionati (non va)
+			var rowsCount = 0;					//Conteggio degli elementi selezionati (non va)
+			var multiselection = false;			//TRUE: multiselezione abilitata
+			
+			var selectedActivity = null;		//Attività attualmente selezionata
+			var idSelectedActivity = null;		//ID dell'attività selezionata
+			var copyMode = false;				//FALSE: nessuna copia attiva al momento
+	        var win;							//Finestra aperta
+			
+			function localSave(parametro, valore) {
+				if(typeof(Storage) !== "undefined") {
+					sessionStorage.setItem(parametro, valore);
+			    } else {
+			        alert("Questo browser non supporta la copia delle attività tra diverse pagine.");
+			    }
+			}
+			
+			
+			function localLoad(parametro) {
+				if(typeof(Storage) !== "undefined") {
+					return sessionStorage.getItem(parametro);
+			    } else {
+			        alert("Questo browser non supporta la copia delle attività tra diverse pagine.");
+			    }
+				
+				return null;
+			}
+			
+			//////////////////////////////////////////////////////////////
+			// Inizializzazione
+			//////////////////////////////////////////////////////////////
+			function doInitialize() {
+	        	if (localLoad("idSelectedActivity")) {
+					idSelectedActivity = localLoad("idSelectedActivity");					
+	        	}       
+	        	
+	        	if (localLoad("idSelectedActivity")) {
+	        		copyMode = true;
+					$('#copy').removeClass("disabled");
+					//$('#copy').css("background", "#FF9900");
+					$('#copy').addClass("rightHeaderElementS");
+					$('#copy').removeClass("rightHeaderElement");
+					$('#copyDesc span').text("Copia in corso...");
+					$('.activityAdd').addClass("activityPaste");
+					$('.activityAdd i').removeClass("fa-plus");
+					$('.activityAdd i').addClass("fa-clipboard");
+					$('.activityAdd').removeClass("activityAdd");
+					$('.activityAddDesc span').text('Incolla attività qui');
+	        	}
+			}
+	        
+			//////////////////////////////////////////////////////////////
+			// Window Opening (kind of modal dialog...)
+			//////////////////////////////////////////////////////////////
+	        function newWindowOpen(link, width, height) {
+	     		if (!win) {
+	     			win = window.open(link, "Dialog", 'height=' + height + ', width=' + width + ',status=yes, toolbar=no, menubar=no, location=no,addressbar=yes, resizable=no');
+	     		}
+	     		else {
+	     			win.focus();
+	     		}
+	     		
+	     		//THIS guy check if the window is closed EVERY SINGLE SECOND
+	     		//May be heavy... but there is not an "onclose" event
+	     		//var timer = setInterval(function() {   
+	     		//    if(win.closed) {  
+	     		//        clearInterval(timer);  
+	     		//        win = false;  
+	     		//    }  
+	     		//}, 1000); 
+	     	}
+	        
+	        
+			//////////////////////////////////////////////////////////////
+			// NEW attività
+			//////////////////////////////////////////////////////////////
+	        function onNew(date) {	  
+
+	        	var sMatricola = $('#saveMatricola').attr('value');
+	        	var sProfilo = $('#saveProfilo').attr('value');	        	
+	        	
+	        	if (copyMode == false) {
+	        		newWindowOpen("./Attivita_Add.jsp?HD=0&Matricola=" + sMatricola + "&Profilo=" + sProfilo + "&Stato=0&Data=" + date, "625", "700");	
+	        	}
+	        	else {
+	        		if (selectedActivity != null) {
+	        			newWindowOpen("../Attivita/Attivita_Edit_Paste.jsp?Matricola="+sMatricola+"&IDAzione="+selectedActivity.attr('id')+"&data="+date+"&refresh", "625", "700");
+	        		}
+	        		else {
+	        			if (localLoad("idSelectedActivity")) {
+	        				alert("Verrà importata una attività selezionata precedentemente...");
+	        				newWindowOpen("../Attivita/Attivita_Edit_Paste.jsp?Matricola="+sMatricola+"&IDAzione="+localLoad("idSelectedActivity")+"&data="+date+"&refresh", "625", "700");
+	    					sessionStorage.removeItem("idSelectedActivity");
+							$('#copy').addClass("disabled");
+	        			}
+	        		}
+	        	}
+	        }
+	        
+			//////////////////////////////////////////////////////////////
+			// EDIT attività
+			//////////////////////////////////////////////////////////////
+	        function onEdit(selection) {
+	        	if (selectedActivity != null || selection != null) {
+	        		var sHD = $('#txtHDfilter').val();
+	        		var sMatricola = $('#saveMatricola').attr('value');
+		        	var sProfilo = $('#saveProfilo').attr('value');	 
+	        	
+	        		newWindowOpen("../Attivita/Attivita_Edit.jsp?HD="+sHD+"&Matricola="+sMatricola+"&Profilo=" + sProfilo + "&IDAzione=" + selectedActivity.attr('id') + "&refresh", "625", "700");
+	        	}
+	        	else {
+	        		alert("Selezionare prima UNA attività!");
+	        	}
+	        }
+			
+			
+			//////////////////////////////////////////////////////////////
+			// DELETE attività
+			//////////////////////////////////////////////////////////////
+			function onDelete() {
+				if (selectedActivity != null) {
+					if (confirm("L'operazione non può essere annullata.\nSi desidera confermare la cancellazione?")) {
+						window.location = "./GestioneAttivita.jsp?&delete=1&idactivity=" + selectedActivity.attr('id');
+					}
+				}
+				else {
+					alert("Selezionare prima UNA attività!");
+				}
+			}
+			
+			
+			//////////////////////////////////////////////////////////////
+			// COPY attività
+			//////////////////////////////////////////////////////////////
+			function onCopy() {
+				if (selectedActivity != null) {
+					if (copyMode == false) {
+						copyMode = true;
+						localSave("idSelectedActivity", selectedActivity.attr('id'));
+						$('#copy').addClass("rightHeaderElementS");
+						$('#copy').removeClass("rightHeaderElement");
+						$('#copyDesc span').text("Copia in corso...");
+						$('.activityAdd').addClass("activityPaste");
+						$('.activityAdd i').removeClass("fa-plus");
+						$('.activityAdd i').addClass("fa-clipboard");
+						$('.activityAdd').removeClass("activityAdd");
+						$('.activityAddDesc span').text('Incolla attività qui');
+					}
+					//Disabilito la copia
+					else {
+						disableCopy();
+					}
+				}
+				else {
+					if (localLoad("idSelectedActivity")) {
+						disableCopy();
+					}
+					else {
+						alert("Selezionare prima UNA attività!");
+					}
+				}
+			}
+			
+			//////////////////////////////////////////////////////////////
+			// APPLY FILTERS
+			//////////////////////////////////////////////////////////////
+			function applyFilters() {		
+				//Controlla la data, devono essere inseriti entrambi!
+				var sDateFrom = document.frmFilters.txtDateFrom.value;
+				var sDateTo = document.frmFilters.txtDateTo.value;
+				
+				if (sDateFrom == "" || sDateTo == "") {
+					return;
+				}
+				
+				$('#saveFilter').attr('value', '1');	
+				document.frmFilters.submit();
+			}
+			
+			//////////////////////////////////////////////////////////////
+			// TOGGLE SELECTION
+			//////////////////////////////////////////////////////////////
+			/*function toggleMultiselection() {
+				console.log("trying toggle multiselection...");
+				console.log($('#multiselection'));
+				console.log($('#multiselectionDesc span').text());
+				
+				if (multiselection) {
+					multiselection = false;			
+					$('#multiselection').attr("class","fa fa-square-o");
+					$('#multiselectionDesc span').text('Multiselezione disabilitata');
+				}
+				else {
+					multiselection = true;
+					$('#multiselection').attr("class", "fa fa-check-square-o");
+					$('#multiselectionDesc span').text('Multiselezione abilitata');
+				}
+				
+				//Reset all
+				for (var i = 0; i < 100; i++) {
+					if (rows[i] != null) {
+						rows[i].removeClass("selected");
+						rows[i] = null;
+					}
+				}
+				
+				rowsCount = 0;
+				
+				if (selectedActivity != null) {
+					selectedActivity.removeClass("selected");
+				}
+				selectedActivity = null;
+				localSave("idSelectedActivity", null);
+			}*/
+		
+
+		
+			//////////////////////////////////////////////////////////////
+			// GO TO DATE
+			//////////////////////////////////////////////////////////////
+			function goDate(value) {	
+				if (value == true) {
+					//Offset = Offset - 7 
+					$("#saveOffset").attr('value', parseInt($("#saveOffset").attr('value')) - 7);					
+				} else {
+					//Offset = Offset + 7 
+					$("#saveOffset").attr('value', parseInt($("#saveOffset").attr('value')) + 7);			
+				}
+				
+				document.frmFilters.submit();
+				
+				//var dateFrom = $('#txtDateFrom').attr('value');
+				//var dateTo = $('#txtDateTo').attr('value');
+					
+				//Refresh location with updated offset
+				//document.location = "./GestioneAttivita.jsp?HD=<%=sHD%>&Matricola=<%=sMatricola%>&offset=" + $("#saveOffset").attr('value');
+			}
+			
+			
+			//////////////////////////////////////////////////////////////
+			// GO BACK TO TODAY
+			//////////////////////////////////////////////////////////////
+			function goBackDate() {		
+				//Reset offset
+				$("#saveOffset").attr('value', 0);	
+				$('#saveFilter').attr('value', '2');	
+					
+				//Reset all document
+				document.location = "./GestioneAttivita.jsp?HD=<%=sHD%>&Matricola=<%=sMatricola%>";
+			}
+			
+			
+			//////////////////////////////////////////////////////////////
+			// FILTER OPEN
+			//////////////////////////////////////////////////////////////
+			function openFilterDialog() {
+				
+				if ($(".dialog").hasClass("shown")) {
+					$(".dialog").removeClass("shown");
+				}
+				else {
+					$(".dialog").addClass("shown");
+				}
+			}
+		
+			//////////////////////////////////////////////////////////////
+			// ACTIVITY SELECTION (click)
+			//////////////////////////////////////////////////////////////		
+			function onActivitySelect(sender) {	
+				if (sender != 'noactivity') {
+					var activity = $("#" + sender);
+					
+					//Ho selezionato un'altra attività, copia persa
+					if (copyMode) {
+						disableCopy();
+						alert("Modalità copia disabilitata!");
+					}
+					
+					//Accorgimenti per la multiselezione (tanto ora non va)
+					//if (multiselection == false) {																		
+						//Se viene premuta la stessa
+						if (selectedActivity != null && activity.attr('id') == selectedActivity.attr('id')) {
+							//activity.removeClass("selected");
+							//selectedActivity = null;
+							onEdit();
+						}
+						//Se viene premuta un'altra
+						else {
+							if (selectedActivity != null) {
+								selectedActivity.removeClass("selected");
+							}
+							activity.addClass("selected");
+							selectedActivity = activity;							
+						}
+						
+						if (selectedActivity != null) {
+							$('#edit').removeClass("disabled");
+							$('#copy').removeClass("disabled");
+							$('#delete').removeClass("disabled");
+						}
+						else {
+							$('#edit').addClass("disabled");
+							$('#copy').addClass("disabled");
+							$('#delete').addClass("disabled");
+						}
+					//}
+					/*else {
+						//Already selected element
+						if (activity.hasClass("selected")) {
+							//Remove the class
+							activity.removeClass("selected")
+							
+							//Remove elem from array
+							var saveIndex = -1;
+							for (var i =0; i < 99; i++) {
+								if (rows[i] == activity) {
+									rows[i] = null;
+									saveIndex = i;
+								}
+								
+								if (saveIndex > 0) {
+									row[i] = row[i+1];
+								}
+							}
+							
+							row[100] = null;
+							rowsCount--;
+						}
+						//Not selected
+						else {						
+							rows[rowsCount] = activity;
+							rows[rowsCount].addClass("selected");
+							rowsCount++;
+						}
+					}*/
+				}
+			}
+			
+			
+			function disableCopy() {
+				copyMode = false;
+				//$('#copy').css("background", "#000088");
+				$('#copy').removeClass("rightHeaderElementS");
+				$('#copy').addClass("rightHeaderElement");
+				$('#copyDesc span').text("Copia");
+				$('.activityPaste').addClass("activityAdd");
+				$('.activityPaste i').removeClass("fa-clipboard");
+				$('.activityPaste i').addClass("fa-plus");
+				$('.activityPaste').removeClass("activityPaste");
+				$('.activityAddDesc span').text('Aggiungi nuova attività');
+				
+				if (selectedActivity == null) {
+					$('#copy').addClass("disabled");
+				}
+				sessionStorage.removeItem("idSelectedActivity");
+			}
+			
+			
+		</script>
+		
+		<style>
+			/* BODY STYLE */
+			body {
+				font-family: Helvetica, Arial, Sans-Serif;
+	  			font-size: 12px;
+	  			margin: 0px;
+				padding: 0px;
+			}
+			
+			
+			
+			/* TITLE */
+			h2 {
+				font-variant: small-caps;
+				font-size: 16px;
+				padding: 0;
+				padding-right: 15px;
+				margin: 0;
+				margin-top: 2px;
+				font-weight: normal;
+				line-height: 20px;		
+				text-align: right;		
+			}
+			
+			h3 {
+				font-variant: small-caps;
+				font-size: 12px;
+				padding: 0;
+				padding-right: 15px;
+				margin: 0;
+				margin-top: -3px;
+				font-weight: normal;
+				line-height: 20px;	
+				text-align: right;
+			}
+			
+			ul {
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			
+			ul li {
+				border-top: 1px solid #8d8d8d;
+				padding: 20px 10px;
+				background: white;
+			}
+			
+			.today {
+				background: #d8ffbf;
+			}
+			
+			.noWork {
+				background:#ccd7e0;
+			}
+			
+			.content {
+				margin-top: 30px;
+			}
+		
+			
+			 ul.mainHours {
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			
+			ul.mainHours li {
+				background: transparent;
+				padding: 2px 5px;
+				border: none;
+			}
+			
+			
+			/* TOOLTIP THINGS */
+			.tooltip {
+				cursor: pointer;
+				position: relative;
+			}
+			
+			.tooltip .tooltiptext, .tooltip .tooltipbigtext {
+				margin-top: 3px;
+			    visibility: hidden;
+			    height: 20px;
+			    line-height: 18px;		
+			    border: 1px solid lightgray;
+			    background-color: white;
+			    color: black;
+			    text-align: center;
+			    font-size: 11px;
+			    border-radius: 3px;
+			 
+			    position: absolute;
+			    z-index: 1;
+    			width: 150px;
+				top: 100%;
+				left: 0px;
+			}
+			
+			
+			.tooltip  .tooltipbigtext {
+				width: 250px;
+				background-color: #fffcdd;
+				height: auto;
+				line-height: 11px;;	
+				text-align: left;
+				padding: 5px;
+				border: 1px solid gray;
+				font-weight: normal;
+			}
+			
+
+			.tooltip:hover .tooltiptext, .tooltip:hover .tooltipbigtext {
+			    visibility: visible;
+			}
+			
+			
+			
+			
+			/* MAIN HEADER OF THE PAGE */
+			.header {
+				background: #000088;
+				display: flex;                  
+				flex-direction: row;           
+				flex-wrap: nowrap;              
+				justify-content: space-between;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 999;
+				width: 100%;
+			}		
+			
+			.leftHeader {
+				color: white;
+			}
+				
+			.rightHeaderElement, .rightHeaderElementS, .rightHeaderElementNo {
+				float: left;
+				width: 40px;
+				height: 40px;
+				font-size: 17px;
+				text-align: center;
+				line-height: 40px;		
+				color: white;	
+			}
+			
+			.rightHeaderElementS {
+				background: #FF9900;
+			}
+			
+			.rightHeaderElement:hover {
+				background: #0000cc;
+			}
+			
+			.rightHeaderElementS:hover {
+				background: #FFD005;
+			}
+			
+			.rightHeaderElementNo {
+				padding-left: 20px;
+				padding-right: 20px;
+				width: auto;
+				font-size: 15px;
+			}
+			
+			.disabled {
+				color: #79798e;
+			}
+			
+			.disabled:hover {
+				background: #0000AA;
+			}
+			
+
+
+
+			/* Two tables */
+			.mainTable, .activityTable {
+				width: 100%;
+				height: 100%;
+			}
+			
+			/* Title of a row */
+			.mainTable caption {
+				font-size: 16px;
+				font-variant: small-caps;
+				font-weight: bold;
+				text-align: left;
+				padding: 5px 5px 5px 7px;
+			}
+			
+			/* Align of main table*/
+			.mainTable td {
+				vertical-align: top;
+			}
+			
+			
+			/* Two columns */
+			.mainActivity {
+				width: 90%;
+			}
+			
+			/*.mainHours {
+				width: 10%;
+			}*/
+					
+			/* Every row in the table */
+			.activityTable tr th, .activityTable tr td {
+				padding: 3px 5px;	
+				border: 1px solid #e0e0e0;	
+			}
+			
+			.activityTable tr.selected td:not(.noHover)  {
+				background: #fff6d3 !important;
+				font-weight: bold;
+				cursor: pointer;
+			}
+			
+			
+			/* Header cells */
+			.activityTable tr th {
+				font-size: 12px;
+				background: #d2d2d2;
+			}
+			
+			.activityTable tr th.error, .activityTable tr td.error {
+				background: #e24926;
+			}			
+			
+			.activityTable ul li.error {
+				background: #e24926;
+			}
+			
+			.activityTable tr.warning th, .activityTable tr.warning td {
+				background: #f7d600;
+			}
+			
+			.activityTable tr th.warning, .activityTable tr td.warning {
+				background: #f7d600;
+			}
+			
+			/* Normal cells */
+			.activityTable tr td {
+				font-size: 11px;
+				max-height: 13px;
+				min-height: 13px;
+				height: 13px;
+				background: #FAfAfA;
+			}			
+			
+			.activityTable tr:not(.noHover):hover td {
+				font-weight: bold;
+				background: #F2F2F2;
+				cursor: pointer;
+			}
+			
+			.activityTable tr:hover td.noHover {
+				font-weight: normal;
+				background: #F9f9f9;
+				cursor: default;
+			}
+			
+			.activityTable tr:not(.noHover):hover td div table tr td {
+				font-weight: normal;
+				background: transparent;
+				cursor: pointer;
+				border: none;
+				padding: 1px 5px 0px 5px;
+				vertical-align: top;
+			}
+			
+			/* Add button */
+			.activityTable tr td.activityAdd {
+				text-align: center;
+				padding: 3px 5px;
+				background: #35e03e;
+				cursor: pointer;
+				color: white;
+				font-style: italic;
+			}
+			
+			/* Add button hover */
+			.activityTable tr td.activityAdd:hover {		
+				background: #25d030;
+			}
+			
+			.activityPaste {
+				text-align: center;
+				padding: 3px 5px;
+				background: #4286f4 !important;
+				cursor: pointer;
+				color: white;
+				font-style: italic;
+			}
+			
+			.activityPaste:hover {
+				background: #68a2ff !important;
+			}
+			
+			.activityTable tr.stretch td {
+				height: 100%;
+			}
+			
+			/* Columns */
+			.activityHour {
+				width: 7%;
+			}
+			
+			.activityComm {
+				width: 25%;
+			}
+			
+			.activityDesc {
+				width: 44%;
+			}
+			
+			.activityMin {
+				width: 8%;
+			}
+			
+
+			
+			.miniTable {
+				color: #2d2d2d;
+				font-size: 11px;
+				border-collapse: collapse;
+				border: none;
+				background: transparent;
+			}
+			
+			.minitable tr td {
+				background: transparent !important;
+				border: none !important;
+				font-weight: normal !important;
+			}
+
+	
+			
+			
+			/* POPUP */
+			.dialog {
+				width: 100%;
+				display: none;
+				color: white;
+				background: #0000aa;
+				margin-top: 40px;
+				
+			}
+			
+			.dialog input, .dialog select  {
+				border-radius: 3px;
+				border: none;
+				padding: 3px 5px;
+			}
+			
+			.dialog input.short {
+				width: 80px;
+			}
+			
+			.dialog select {
+				padding: 1px 5px;
+				height: 21px;
+			}
+			
+			.shown {
+				display: inline-block;
+			}
+			
+			#frmFilters table tr {
+				height: 25px;
+			}
+			
+			ul.filterList {
+				color: #2d2d2d;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			ul.filterList li {
+				padding: 10px;
+				border-bottom: 1px solid lightgray;
+			}
+			
+			.filterElem {
+				float: left;
+				padding: 5px;
+				margin-right: 20px;
+			}
+
+			
+			.dateSelector {
+				border-radius: 2px;
+				color: white;
+				text-align: center;
+				line-height: 17px;
+				font-size: 14px;
+				width: 17px;
+				height: 17px;
+				background: #FF9900;
+				cursor: pointer;
+			}
+			
+			.dateSelector:hover {
+				background: #FFD005;
+			}
+			
+			.btnApply {
+				width: 120%;
+				text-align: center;
+				color: white;
+				padding: 5px;
+				border-radius: 3px;
+				background: #35e03e;
+				cursor: pointer;
+			}
+			
+			.btnApply:hover {
+				background: #25d030;
+			}
+		</style>
+	</head>
+	
+	<body onload="doInitialize();">	
+		<input type="hidden" name="saveProfilo" id='saveProfilo' value="<%=sProfilo%>">
+		<input type="hidden" name="saveHD" id='saveHD' value="<%=sHD%>">
+        <input type="hidden" name="saveMatricola" id='saveMatricola' value="<%=sMatricola%>">
+		
+		<div id="header" class="header">
+			<div class="dialog">
+				<form id="frmFilters" name="frmFilters" action="GestioneAttivita.jsp">
+					<input type='hidden' name='saveOffset' id='saveOffset' value='<%=sOffset%>'>
+					<input type='hidden' name='saveFilter' id='saveFilter' value='0'>
+					<div class="filterElem">
+						<table>
+							<tr>
+								<td><i class="fa fa-calendar" aria-hidden="true"></i> Da:</td>
+								<td><input readonly class="short" type="text" id="txtDateFrom" name="txtDateFrom" placeholder="Dal..." value='<%=calendarUtil.dateToString(fDateFrom, "dd/MM/yyyy")%>'></td>
+								<td><div class="dateSelector" onclick="displayCalendar2(document.frmFilters.txtDateFrom,'dd/mm/yyyy',this,'header');" >...</div></td>		
+							</tr>
+							<tr>
+								<td><i class="fa fa-calendar" aria-hidden="true"></i> A:</td>
+								<td><input readonly class="short" type="text" id="txtDateTo" name="txtDateTo" placeholder="Al..." value='<%=calendarUtil.dateToString(fDateTo, "dd/MM/yyyy")%>'></td>
+								<td><div class="dateSelector" onclick="displayCalendar2(document.frmFilters.txtDateTo,'dd/mm/yyyy',this,'header');" >...</div></td>		
+							</tr>
+						</table>
+					</div>
+					<div class="filterElem">
+						<table>
+							<tr>
+								<td><label>Dipendente: </label></td>	
+							</tr>
+							<tr>
+							
+								<td><select name="txtUserFilter">
+								
+									<%
+									boolean selected = false;								
+									
+									if (sResponsabile.equals("1")) { 
+										String sSQL = "select users.id_user, contacts.firstname, contacts.lastname from users inner join users_view on users.id_user = users_view.id_user_view left join contacts on users.id_contact=contacts.id_contact where users_view.id_user=" + session.getAttribute("Matricola").toString();
+										doc = db.list(sSQL);
+										
+										if (doc.getElement("error") == null)
+										{
+											elems = doc.getRoot().getElements("item");
+											
+
+											while (elems.hasMoreElements())
+		                                	{	
+		                                		elem = elems.next();	
+		                                		
+		                                		if (sMatricola.equals(elem.getAttribute("id_user"))) {
+		                                			out.print("<option SELECTED value='"+elem.getAttribute("id_user")+"'>"+elem.getAttribute("firstname")+" "+elem.getAttribute("lastname")+"</option>");
+		                                			selected = true;	                                					
+		                                		}
+		                                		else {
+		                                			out.print("<option value='"+elem.getAttribute("id_user")+"'>"+elem.getAttribute("firstname")+" "+elem.getAttribute("lastname")+"</option>");
+		                                		}
+		    									//
+		                                	}										
+										}
+										
+									}
+									
+									if (selected == false) {
+										out.println("<option SELECTED value='" + sUserID + "'>[Personale]</option>");
+									}
+									else {
+										out.println("<option value='" + sUserID + "'>[Personale]</option>");
+									}
+									
+									%>
+								</select></td>
+							</tr>
+						</table>
+					</div>
+					<div class="filterElem">
+						<table>
+							<tr>
+								<td><label>Visualizzazione: </label></td>	
+							</tr>
+							<tr>						
+								<td><select name="txtHDfilter">
+									<option value="0" <% if (sHD.equals("0")) out.print("selected"); %>>Attività</option>
+									<option value="1" <% if (sHD.equals("1")) out.print("selected"); %>>HelpDesk</option>
+									<option value="2" <% if (sHD.equals("2")) out.print("selected"); %>>Tutto</option>
+								</select></td>
+							</tr>
+						</table>
+					</div>
+					<div class="filterElem">
+						<table>
+							<tr>
+								<td><label>Giornate: </label></td>	
+							</tr>
+							<tr>
+							
+								<td><select DISABLED name="txtMarkFilter">
+									<option>Tutte</option>
+									<option>Corrette</option>
+									<option>Anomale</option>
+								</select></td>
+							</tr>
+						</table>
+					</div>
+					<div class="filterElem">
+						<table>
+							<tr>
+								<td><label>Ricerca: </label></td>
+							</tr>
+							<tr>
+								<td><input DISABLED class="date" type="text" name="txtSearch" id="txtSearch"></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="filterElem">
+						<table>
+							<tr></tr>
+							<tr>
+								<td>
+									<div class="btnApply" onclick="applyFilters()">
+										<i class="fa fa-check" aria-hidden="true"></i>
+										Applica
+									</div>
+								</td>
+							</tr>
+						</table>
+	
+					</div>
+				</form>
+			</div>
+		
+		
+			<div class="header">
+				<div class="rightHeader">
+					<div class="rightHeaderElementS tooltip" onclick="openFilterDialog();">
+						<i class="fa fa-filter" aria-hidden="true"></i>
+						<div class="tooltiptext">Applica filtro</div>
+					</div>
+					
+					<div onclick="onNew('<%=calendarUtil.dateToString(fToday, "dd/MM/yyyy")%>')" class="rightHeaderElement tooltip">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+						<div class="tooltiptext">Nuova attività</div>
+					</div>
+					
+					<div id="edit" onclick="onEdit()" class="rightHeaderElement disabled tooltip">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						<div class="tooltiptext">Modifica attività</div>
+					</div>
+					
+					<div id="copy" onclick="onCopy()" class="rightHeaderElement disabled tooltip">
+						<i class="fa fa-clone" aria-hidden="true"></i>
+						<div id="copyDesc" class="tooltiptext"><span>Copia</span></div>
+					</div>				
+					
+					<div id="delete" onclick="onDelete()" class="rightHeaderElement disabled tooltip">
+						<i class="fa fa-trash" aria-hidden="true"></i>
+						<div class="tooltiptext">Elimina</div>
+					</div>				
+					
+					<div class="rightHeaderElement tooltip" onclick="goBackDate();">
+						<i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+						<div class="tooltiptext">Reset tutti filtri</div>
+					</div>
+					
+					<!-- Multiselection is disabled for now...
+					<div class="rightHeaderElement tooltip" onclick="toggleMultiselection();">
+						<i id="multiselection" class="fa fa-square-o" aria-hidden="true"></i>
+						<div id="multiselectionDesc" class="tooltiptext"><span>Multiselezione disabilitata</span></div>
+					</div>  -->
+					
+					
+				</div>
+				
+				<div>
+					<%if (sFilter.equals("0") || sFilter.equals("2") || calendarUtil.getDifferenceDays(fDateFrom.getTime(), fDateTo.getTime()) == 7) { %>
+						<div class="rightHeaderElement tooltip" onclick="goDate(true);">
+							<i class="fa fa-chevron-left" aria-hidden="true"></i>
+							<div class="tooltiptext">Indietro</div>
+						</div>
+						<div class="rightHeaderElementNo">
+							Dal [<%=calendarUtil.dateToString(fDateFrom, "dd-MM")%>] al [<%=calendarUtil.dateToString(fDateTo, "dd-MM")%>]
+						</div>
+						<div class="rightHeaderElement tooltip" onclick="goDate(false);">
+							<i class="fa fa-chevron-right" aria-hidden="true"></i>
+							<div class="tooltiptext">Avanti</div>
+						</div> 
+					<%} else { %>
+						<div class="rightHeaderElementNo">
+							Risultati dal [<%=calendarUtil.dateToString(fDateFrom, "dd-MM-yyyy")%>] al [<%=calendarUtil.dateToString(fDateTo, "dd-MM-yyyy")%>]
+						</div>
+					<%} %>
+				</div>		
+				
+				<div class="leftHeader">
+					<%if (sNominativo.equals(sNominativoLog)) { %>
+						<h2 style="line-height: 36px"><%=sNominativo%></h2>
+					<%} else {%>
+						<h2><%=sNominativo%></h2>
+						<h3>loggato come <%=sNominativoLog%></h3>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		
+		<ul class="content">
+			<%	        
+				//Mi costruisco una mappa di date - attributi
+				Map<String, List<electric.xml.Element>> attivita = new HashMap<String, List<electric.xml.Element>>();
+				
+				//Prendo tutte le attività
+				doc = az.listCalAzioni(calendarUtil.dateToString(fDateFrom, "yyyy-MM-dd"), calendarUtil.dateToString(fDateTo, "yyyy-MM-dd"), sMatricola, sHD);
+				elem = doc.getRoot();								
+				elems = elem.getElements("item");		
+				
+				//Finchè ho gli elementi
+				while (elems.hasMoreElements()) {
+					elem = elems.next();
+					
+					//Mi prendo la data
+					String date = elem.getAttribute("data").split(" ")[0];
+					
+					//Se ce l'ho gia la aggiungo
+					if (attivita.get(date) != null) {
+						attivita.get(date).add(elem);
+					}
+					//Altrimenti creo una nuova chiave e la lisa associata
+					else {
+						List<electric.xml.Element> lstElems = new ArrayList<electric.xml.Element>();
+						lstElems.add(elem);
+						attivita.put(date, lstElems);
+					}
+				}
+
+				
+				//Salva la data corrente
+				Calendar curDate = Calendar.getInstance();
+				curDate.set(fDateTo.get(Calendar.YEAR), fDateTo.get(Calendar.MONTH), fDateTo.get(Calendar.DAY_OF_MONTH));
+				calendarUtil.setTimeToZero(curDate);
+				
+				//Si prende il giorno di oggi
+				Calendar tmpToday = Calendar.getInstance();
+				calendarUtil.setTimeToZero(tmpToday);
+					
+				//Scorro l'intervallo dalla fine fino all'inizio
+				while (curDate.compareTo(fDateFrom) >= 0) {
+					
+					//Controlla se non è una festività				
+					boolean festivo = false;					
+					if (festivita.containsKey(calendarUtil.dateToString(curDate, "dd/MM/yyyy"))) {
+						festivo = true;
+					}
+					
+					
+					//Prima guardo se si tratta di "oggi" o di altri giorni
+					if (curDate.compareTo(tmpToday) == 0) {
+						out.println("<li class='today'>");
+					}
+					else if (calendarUtil.isSatSun(curDate) || festivo){
+						out.println("<li class='noWork'>");
+					}
+					else {
+						out.println("<li>");
+					}
+					
+					
+					
+					//Controlla le timbrature per quel giorno
+					
+					//Minuti:
+					// -1 = USERNAME assente
+					// -2 = ERRORE nella somma dei minuti / timbrature dispari
+					// -3 = Nessuna timbratura
+					
+					int minuti = -1;
+					List<String> timbrature = null;
+					
+					//Genera nel caso un messaggio di errore
+					String errorMessage = "";	
+					
+					//Se ho preso il 3+3
+					if (sUserName != null) {
+						
+						//Me le scrivo tutte
+						timbrature = az.getTimbratureOfDay(az.getCodUserByID(sMatricola), calendarUtil.dateToString(curDate, "yyyyMMdd"));
+						
+						//Se le timbrature sono vuote
+						if (timbrature.isEmpty()) {
+							minuti = -3;
+						} else {
+							//Se le timbrature sono pari
+							if (timbrature.size() % 2 == 0) {
+								//Per ogni coppia di timbrature uscita / entrata
+								for (int i = 0; i < timbrature.size(); i += 2) {
+									//Calcola il tempo
+									int res = calendarUtil.getTimeRange(timbrature.get(i), timbrature.get(i+1));
+									
+									//Se ho passato parametri corretti
+									if (res != -1)
+										minuti += res;
+									else {
+										minuti = -2;
+										break;
+									}
+								}
+							}
+							else {
+								minuti = -2;
+							}
+						}	
+					}
+					else {
+						minuti = -1;
+					}
+					
+					//Mi creo la tabella
+					%>
+					<!-- oooooooooooooooooooooooooooooooooooo TABLE HEAD CREATION oooooooooooooooooooooooooooooooooooo -->
+					
+					
+						<table class="mainTable">
+						<%
+							String caption = "[" + curDate.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ITALIAN) + "]";
+							String what = "";
+							if (festivo || calendarUtil.isSatSun(curDate)) {							
+								caption = "<span style='color: #ff6726'> [" + curDate.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ITALIAN) + "] </span>";
+								
+								if (festivo) {
+									what = " - <span style='color: #ff6726; font-style: italic; font-weight: normal;'> (" + festivita.get(calendarUtil.dateToString(curDate, "dd/MM/yyyy")) + ") </span>";
+								}
+							}
+						
+						%>
+							<caption>
+								<%=caption%>
+								<%=calendarUtil.dateToString(curDate, "dd-MM-yyyy")%> 
+								<%=sNominativo%>
+								<%=what%>
+								</caption>
+							<tr>
+								<td class="mainActivity">
+									<table class="activityTable">
+										<tr>
+											<th class="activityHour">Orario</th>
+											<th class="activityComm">Commessa</th>
+											<th class="activityDesc">Descrizione</th>
+											<th class="activityMin">Min. Eff.</th>
+											<th class="activityMin">Min. Fatt.</th>
+											<th class="activityMin">Timbrature</th>
+										</tr>
+					<%					
+					
+					//Se ci sono le inserisco dentro la tabella
+					if (attivita.get(calendarUtil.dateToString(curDate, "yyyy-MM-dd")) != null) {					
+						
+						//Inserisco tutte le attività che trovo!
+						List<electric.xml.Element> activityElems = attivita.get(calendarUtil.dateToString(curDate, "yyyy-MM-dd"));
+						boolean timbratureOk = false;						
+						
+						for (electric.xml.Element elemnt : activityElems) {
+							
+							String daminuti = elemnt.getAttribute("daminuti");
+							if (daminuti.length() == 1)
+								daminuti = "0" + daminuti;
+							
+							String aminuti = elemnt.getAttribute("aminuti");
+							if (aminuti.length() == 1)
+								aminuti = "0" + aminuti;					
+							
+							String tmpStart = elemnt.getAttribute("daora") + ":" + daminuti;
+							String tmpEnd = elemnt.getAttribute("aora") + ":" + aminuti;
+									
+							//Aggiungo righe alla tabella creata
+							%>
+							<!-- oooooooooooooooooooooooooooooooooooo ROW CREATION oooooooooooooooooooooooooooooooooooo -->
+							
+											<tr id="<%=elemnt.getAttribute("idattivita")%>" onClick="onActivitySelect('<%=elemnt.getAttribute("idattivita")%>')" ondblclick="onEdit();">
+												<td><%=tmpStart%> - <%=tmpEnd%></td>
+												<td><%=elemnt.getAttribute("descr_com")%></td>
+												<td class="tooltip" ><span style="font-size: 12px;">Lavoro: <%=elemnt.getAttribute("descr_lav")%></span> <br/> Attività: <%=elemnt.getAttribute("descr_attipo")%> 
+													<div class="tooltipbigtext noHover">
+														<table class="miniTable">
+															<tr>
+																<td>Minuti:</td>
+																<td><%=elemnt.getAttribute("minuti")%></td>
+															</tr>
+															<tr>
+																<td>MiMinuti:</td>
+																<td><%=elemnt.getAttribute("miminuti")%></td>
+															</tr>
+															
+															<tr>
+															<% 
+															 if (elemnt.getAttribute("idlavoro") == null) { %>
+																 	<td>Lavoro</td>
+																	<td>Nessun lavoro</td>
+															<%
+															 } else { 
+																if (elemnt.getAttribute("autorizzato").equals("1")) {%>
+																	<td style="color: green;">Lavoro</td>
+																	<td style="color: green;"><%=elemnt.getAttribute("descr_lav")%> (autorizzato)</td>
+																<% } else {%>
+																	<td style="color: red;">Lavoro</td>
+																	<td style="color: red;"><%=elemnt.getAttribute("descr_lav")%> (non autorizzato)</td>
+																<%}
+															}%>
+															</tr>
+															
+															<tr>
+																<td>Attività:</td>
+																<td><%=elemnt.getAttribute("descr_attipo")%></td>
+															</tr>
+															<tr>
+																<td>Commessa:</td>
+																<td><%=elemnt.getAttribute("descr_com")%></td>
+															</tr>
+															
+															<%
+															 if (elemnt.getAttribute("descr_azi") != null) {  %>
+																<tr>
+																	<td>Azienda:</td>
+																	<td><%=elemnt.getAttribute("descr_azi")%></td>
+																</tr>
+	                                            			<%}
+															
+															if (elemnt.getAttribute("descrizione") != null) { %>
+																<tr>
+																	<td>Descrizione:</td>
+																	<td><%=elemnt.getAttribute("descrizione")%></td>
+																</tr>
+	                                            			<%}%>
+														</table>										
+													</div>
+												</td>
+												<td><%=elemnt.getAttribute("minuti")%></td>
+												<td><%=elemnt.getAttribute("miminuti")%></td>	
+												<%
+												if (timbratureOk == false) { %>
+													<td class="noHover" rowspan="<%=activityElems.size()%>">
+														<ul class="mainHours">
+	
+															<% 
+																for (String s : timbrature) {
+																	out.println("<li>" + s + "</li>");
+																}
+																
+																timbratureOk = true;
+																%>										
+														</ul>
+													</td>
+												<% } %>
+																																		
+											</tr>				
+							<%
+						}
+						
+						//Finito di inserire tutte, completo la tabella
+						//Inserite le attività metto il bottone aggiungi
+						%>
+							<!-- oooooooooooooooooooooooooooooooooooo ADD BUTTON oooooooooooooooooooooooooooooooooooo -->
+											<tr class="noHover"> 
+												<td onclick="onNew('<%=calendarUtil.dateToString(curDate, "dd/MM/yyyy")%>')" class="activityAdd">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+												</td>
+												<td class="activityAddDesc"><span>Aggiungi nuova attività</span></td>
+												<td></td>
+												<%
+													int minEf = az.getMinutiAttivitaGiorno(sMatricola, calendarUtil.dateToString(curDate, "yyyy-MM-dd"), false);
+													int miMin = az.getMinutiAttivitaGiorno(sMatricola, calendarUtil.dateToString(curDate, "yyyy-MM-dd"), true);
+													
+													String classMinEf = "";
+													String classMiMin = "";
+													String classMinuti = "";		
+													
+													// -1 = USERNAME assente
+													// -2 = ERRORE nella somma dei minuti / timbrature dispari
+													// -3 = Nessuna timbratura
+													
+													//Se non c'è stato nessun problema con calcolo delle timbrature
+													if (minuti >= 0) {		
+														//Se minuti effettivi non corrispondono alle timbrature = ERRORE
+														if (minEf < minuti) {
+															classMinEf = "class='error'";
+															errorMessage = "Minuti effettivi minori rispetto alle timbrature! \n";
+														}
+													}													
+													
+													//Se mi minuti non corrispondono ai minuti = WARNING
+													if (miMin != minEf) {
+														classMiMin = "class='warning'";
+													}
+													
+												
+													if (minuti == -1) {
+														classMinuti = "class='error'";
+														errorMessage = "Errore nel ricavare timbrature! \n";
+													}
+													
+													if (minuti == -2) {
+														classMinuti = "class='error'";
+														errorMessage = "Timbrature presenti, non corrette! \n";
+													}
+													
+													if (minuti == -3) {
+														classMinuti = "class='warning'";
+														errorMessage = "Nessuna timbratura! \n";
+													}
+																									
+													
+													out.println("<th " + classMinEf + ">"  + minEf +  " (" + calendarUtil.convertMinutesToHours(minEf) +  ") </th>");
+													out.println("<th " + classMiMin + ">"  + miMin +  " (" + calendarUtil.convertMinutesToHours(miMin) +  ") </th>");
+													
+													if (minuti > 0) {
+														out.println("<th " + classMinuti + ">" + minuti + " (" + calendarUtil.convertMinutesToHours(minuti) + ") </th>");	
+													}
+													else {
+														out.println("<th " + classMinuti + "> - ( - ) </th>");
+													}
+												%>
+											</tr>
+											
+											</table>
+									 	</td>
+									</tr>
+								</table>
+								<p style="text-align: right; padding: 0px 10px 0px 0px; margin: 3px; font-style: italic; font-size: 11px;">
+								<%=errorMessage %>		
+								</p>
+							</li>			
+						<%
+						
+					//FINE IF (hasMoreElements)
+					}
+					
+					//Non ha elementi in questa data, tabella vuota
+					else {					
+						%>
+						<!-- oooooooooooooooooooooooooooooooooooo EMPTY TABLE oooooooooooooooooooooooooooooooooooo -->
+						
+											<tr class="noHover" onClick="onActivitySelect('noactivity')">
+												<td>-</td>
+												<td>Nessuna attivià presente</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>
+													<ul class="mainHours">
+														<%
+														for (String s : timbrature) {
+															out.println("<li>" + s + "</li>");
+														}
+
+														%>											
+													</ul>
+												</td>
+											</tr>
+											
+											<tr class="noHover">
+												<td onclick="onNew('<%=calendarUtil.dateToString(curDate, "dd/MM/yyyy")%>')" class="activityAdd">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+												</td>
+												<td class="activityAddDesc"><span>Aggiungi nuova attività</span></td>
+												<td></td>
+												<th></th>
+												<th></th>
+												<%
+												String classMinuti = "";		
+												
+												// -1 = USERNAME assente
+												// -2 = ERRORE nella somma dei minuti / timbrature dispari
+												// -3 = Nessuna timbratura
+												
+												if (minuti == -1) {
+													classMinuti = "class='error'";
+													errorMessage = "Errore nel ricavare timbrature! \n";
+												}
+													
+												if (minuti == -2) {
+													classMinuti = "class='error'";
+													errorMessage = "Timbrature presenti, non corrette! \n";
+												}
+												
+												if (minuti > 0) {
+													classMinuti = "class='error'";
+													errorMessage = "Attività non presenti! \n";
+												}
+													
+												
+												if (minuti > 0) {
+													out.println("<th " + classMinuti + ">" + minuti + " (" + calendarUtil.convertMinutesToHours(minuti) + ") </th>");	
+												}
+												else {
+													out.println("<th " + classMinuti + "> - ( - ) </th>");
+												}
+												
+												%>
+											</tr>
+											
+											</table>
+										</td>
+									</tr>
+								</table>
+								
+								<p style="text-align: right; padding: 0px 10px 0px 0px; margin: 3px; font-style: italic; font-size: 11px;">
+								<%=errorMessage %>		
+								</p>
+							</li>
+						
+						<%
+						
+					//FINE ELSE -> if (hasMoreElements)
+					}
+					
+					
+					curDate.add(Calendar.DAY_OF_MONTH, -1);
+					
+				//FINE WHILE
+				}
+			%>
+			
+			<!-- LAST ITEM IS FIXED AND HIDDEN: temp solution for bouncing final result -->
+			<!-- if deleted the last result with tooltip active will bounce entire screen -->
+			
+			<li style="visibility: hidden;">
+				<table class="mainTable">
+					<caption>03/04/2017  -  Mario Rossi</caption>
+					<tr>
+						<td class="mainActivity">
+							<table class="activityTable">
+								<tr>
+									<th class="activityHour">Orario</th>
+									<th class="activityComm">Commessa</th>
+									<th class="activityDesc">Descrizione</th>
+									<th class="activityMin">Min. Eff.</th>
+									<th class="activityMin">Min. Fatt.</th>
+								</tr>
+								
+								<tr onClick="onActivitySelect()">
+									<td>8:00 - 13:10</td>
+									<td>Commessa corta</td>
+									<td>Descrizione abbastanza corta qui</td>
+									<td>200</td>
+									<td>210</td>
+								</tr>
+								
+								<tr onClick="onActivitySelect()">
+									<td>14:30 - 15:10</td>
+									<td>Commessa più lunga di prima</td>
+									<td>Descrizione un po' più lunga rispetto a prima</td>
+									<td>200</td>
+									<td>210</td>
+								</tr>
+								
+								<tr onClick="onActivitySelect()">
+									<td>15:10 - 17:00</td>
+									<td>Commessa, la più lunga che ci può stare qui</td>
+									<td>Descrizione, la massima descrizione che può avere questo elemento</td>
+									<td>200</td>
+									<td>210</td>
+								</tr>
+								
+								<tr onClick="onActivitySelect()">
+									<td>17:00 - 18:00</td>
+									<td>Commessa che sicuramente sborderà e andrà a capo su questa cella</td>
+									<td>Descrizione, che sicuramente sborderà e andrà a capo su questa cella facendo vedere un brutto effetto</td>
+									<td>200</td>
+									<td>210</td>
+								</tr>
+								
+								<tr class="noHover">
+									<td class="activityAdd">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</td>
+									<td>Aggiungi nuova attività</td>
+									<td></td>
+									<th>800</th>
+									<th>840</th>
+								</tr>
+							</table>
+						</td>
+						
+						<td class="mainHours">
+							<table class="activityTable">
+								<tr>
+									<th>Entrata</th>
+									<th>Uscita</th>
+								</tr>
+								<tr class="stretch noHover">
+									<td colspan="2">
+										<ul>
+											<li>8.30 - 13.00<li/>
+											<li>14.30 - 18.00<li/>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<th colspan="2">200</th>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</li>	
+		</ul>	
+	</body>
+
+</html>
