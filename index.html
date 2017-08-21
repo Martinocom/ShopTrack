@@ -18,22 +18,27 @@
 </head>
 
 <body>
-    <div id="sideMenu" class="sideMenu">      
-        <div class="stackHorizontal clickable selected">
-                <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
-                <div class="text">Home</div>
+    <div id="sideMenu" class="sideMenu">
+        <div style="width:280px; float:left; display:inline-block;background: white; height: 100%; padding-top: 20px;">
+            <div class="stackHorizontal clickable selected">
+                    <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                    <div class="text">Home</div>
+            </div>
+            <div class="stackHorizontal clickable">
+                    <div class="icon"><i class="fa fa-file-o" aria-hidden="true"></i></div>
+                    <div class="text">Bozze</div>
+            </div>
+            <div class="stackHorizontal clickable">
+                    <div class="icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+                    <div class="text">Debiti</div>
+            </div>
+            <div class="stackHorizontal clickable">
+                    <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+                    <div class="text">Info</div>
+            </div>
         </div>
-        <div class="stackHorizontal clickable">
-                <div class="icon"><i class="fa fa-file-o" aria-hidden="true"></i></div>
-                <div class="text">Bozze</div>
-        </div>
-        <div class="stackHorizontal clickable">
-                <div class="icon"><i class="fa fa-money" aria-hidden="true"></i></div>
-                <div class="text">Debiti</div>
-        </div>
-        <div class="stackHorizontal clickable">
-                <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
-                <div class="text">Info</div>
+
+        <div onclick="closeNav()" style="margin-left:200px; background: rgba(0, 0, 0, 0.5); height: 100%">
         </div>
     </div>
 
@@ -54,11 +59,11 @@
         <div id="content" class="content">
             <table class="flatTable">
                 <tr class="headingTr">
-                    <td>STORE</td>
+                    <td class="tdSmall">STORE</td>
                     <td>DATA</td>
                     <td>TOTALE</td>
                     <td>STATO</td>
-                    <td></td>
+                    <td class="tdSmall"></td>
                 </tr>
                 
                 <tr>
@@ -75,12 +80,15 @@
                     </td>
                     <td>
                         <div>
-                            <i class="fa fa-shopping-bag" aria-hidden="true">10</i><br/>
-                            <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true">3</i><br/>
-                            <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true">7</i><br/>
+                            10 <i class="fa fa-shopping-bag" aria-hidden="true"></i><br/>
+                            3 <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i><br/>
+                            7 <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true"></i><br/>
                         </div>
                     </td>
-                    <td class="controlTd">
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>                          
                     </td>
                 </tr>
                
@@ -98,12 +106,15 @@
                     </td>
                     <td>
                         <div>
-                            <i class="fa fa-shopping-bag" aria-hidden="true">10</i><br/>
-                            <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true">3</i><br/>
-                            <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true">7</i><br/>
+                            10 <i class="fa fa-shopping-bag" aria-hidden="true"></i><br/>
+                            3 <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i><br/>
+                            7 <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true"></i><br/>
                         </div>
                     </td>
-                    <td class="controlTd">
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>                          
                     </td>
                 </tr>
 
@@ -121,12 +132,15 @@
                     </td>
                     <td>
                         <div>
-                            <i class="fa fa-shopping-bag" aria-hidden="true">10</i><br/>
-                            <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true">3</i><br/>
-                            <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true">7</i><br/>
+                            10 <i class="fa fa-shopping-bag" aria-hidden="true"></i><br/>
+                            3 <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i><br/>
+                            7 <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true"></i><br/>
                         </div>
                     </td>
-                    <td class="controlTd">
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>                          
                     </td>
                 </tr>
 

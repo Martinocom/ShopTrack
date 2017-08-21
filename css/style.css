@@ -32,7 +32,7 @@ body {
     justify-content: flex-start;
 }
 
-.stackHorizontal .title, .stackHorizontal .button, .stackHorizontal .icon, .stackHorizontal .text {
+.stackHorizontal .title, .stackHorizontal .icon, .stackHorizontal .text, .button {
     height: 48px;
     min-width: 56px;
     font-size: 17px;
@@ -56,12 +56,19 @@ body {
 }
 
 
-.stackHorizontal .button {
+.button {
+    cursor: pointer;
     color: white;
     text-align: center;
 }
-.stackHorizontal .button:hover{
+.button:hover{
     background: #2887e5;
+}
+.button.black {
+    color: #6b6b6b;
+}
+.button.black:hover {
+    background: #F0F0F0;
 }
 
 
@@ -74,6 +81,7 @@ body {
 
 
 .stackHorizontal.clickable {
+    cursor: pointer;
     text-align: left;
     color: black;
     background: white;
@@ -83,6 +91,7 @@ body {
 }
 
 .stackHorizontal.clickable.selected {
+    cursor: pointer;
     color: white;
     background: #1976D2;
 }

@@ -6,11 +6,13 @@
     z-index: 1; /* Stay on top */
     top: 0;
     left: 0;
-    background-color: white; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 48px from the top */
+    overflow-y: hidden;
+    padding-top: 48px;  /*Place content 48px from the top */
     transition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
+
 }
+
 
 .sideMenu a {
     padding: 0;
