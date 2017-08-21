@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 
-<html ng-app>
+<html>
 
 <head>
     <meta charset="UTF-8">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="scripts/sidemenu_script.js"></script>
+    <script src="scripts/table_script.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
@@ -19,26 +20,26 @@
 
 <body>
     <div id="sideMenu" class="sideMenu">
-        <div style="width:280px; float:left; display:inline-block;background: white; height: 100%; padding-top: 20px;">
+        <div class="fixedMenu">
             <div class="stackHorizontal clickable selected">
-                    <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
-                    <div class="text">Home</div>
+                <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="text">Home</div>
             </div>
             <div class="stackHorizontal clickable">
-                    <div class="icon"><i class="fa fa-file-o" aria-hidden="true"></i></div>
-                    <div class="text">Bozze</div>
+                <div class="icon"><i class="fa fa-file-o" aria-hidden="true"></i></div>
+                <div class="text">Bozze</div>
             </div>
             <div class="stackHorizontal clickable">
-                    <div class="icon"><i class="fa fa-money" aria-hidden="true"></i></div>
-                    <div class="text">Debiti</div>
+                <div class="icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+                <div class="text">Debiti</div>
             </div>
             <div class="stackHorizontal clickable">
-                    <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
-                    <div class="text">Info</div>
+                <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+                <div class="text">Info</div>
             </div>
         </div>
 
-        <div onclick="closeNav()" style="margin-left:200px; background: rgba(0, 0, 0, 0.5); height: 100%">
+        <div onclick="closeNav()" class="overlayMenu">
         </div>
     </div>
 
@@ -56,110 +57,20 @@
         </div>
 
 
-        <div id="content" class="content">
-            <table class="flatTable">
+        <div id="content" class="content stackHorizontal">
+            <table class="flatTable panelLeft">
                 <tr class="headingTr">
                     <td class="tdSmall">STORE</td>
                     <td>DATA</td>
                     <td>TOTALE</td>
-                    <td>STATO</td>
+                    <td class="tdSmall">STATO</td>
                     <td class="tdSmall"></td>
                 </tr>
-                
-                <tr>
-                    <td>                        
-                        <span id="number" class="smallText">0</span><br/>
-                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
-                    </td>
-                    <td>
-                        <span id="date" class="bigText">21/08/2017</span><br/>
-                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
-                    </td>
-                    <td>                        
-                        <span id="datePrev" class="bigText">10,99€</span><br/>       
-                    </td>
-                    <td>
-                        <div>
-                            10 <i class="fa fa-shopping-bag" aria-hidden="true"></i><br/>
-                            3 <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i><br/>
-                            7 <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true"></i><br/>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="button black">
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </div>                          
-                    </td>
-                </tr>
-               
-                <tr>
-                    <td>                        
-                        <span id="number" class="smallText">0</span><br/>
-                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
-                    </td>
-                    <td>
-                        <span id="date" class="bigText">21/08/2017</span><br/>
-                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
-                    </td>
-                    <td>                        
-                        <span id="datePrev" class="bigText">10,99€</span><br/>       
-                    </td>
-                    <td>
-                        <div>
-                            10 <i class="fa fa-shopping-bag" aria-hidden="true"></i><br/>
-                            3 <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i><br/>
-                            7 <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true"></i><br/>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="button black">
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </div>                          
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>                        
-                        <span id="number" class="smallText">0</span><br/>
-                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
-                    </td>
-                    <td>
-                        <span id="date" class="bigText">21/08/2017</span><br/>
-                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
-                    </td>
-                    <td>                        
-                        <span id="datePrev" class="bigText">10,99€</span><br/>       
-                    </td>
-                    <td>
-                        <div>
-                            10 <i class="fa fa-shopping-bag" aria-hidden="true"></i><br/>
-                            3 <i class="fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i><br/>
-                            7 <i class="fa fa-check" style="color: #58FA13;" aria-hidden="true"></i><br/>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="button black">
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </div>                          
-                    </td>
-                </tr>
-
-                    
-             </table>
-                      
-            <!--
-            <table>
-                <tr>
-                    <th class="store">Store</th>
-                    <th class="date">Data Ordine</th>
-                    <th class="total">Totale</th>
-                    <th class="details">Dettagli</th>
-                </tr>
 
                 <tr>
                     <td>
                         <span id="number" class="smallText">0</span><br/>
-                        <img src="images/icons/aliexpress.png" width="32" height="32"/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32" />
                     </td>
                     <td>
                         <span id="date" class="bigText">21/08/2017</span><br/>
@@ -167,84 +78,237 @@
                     </td>
                     <td>
                         <span id="datePrev" class="bigText">10,99€</span><br/>
-
-                        <div class="stackHorizontal">
-                            <div class="icon"><i class="fa fa-user" aria-hidden="true"></i></div>
-                            <div class="text"> <span class="normalText" id="persons">3</span></div>
+                    </td>
+                    <td>
+                        <ul class="fa-ul">
+                            <li><i class="fa-li fa fa-shopping-bag" aria-hidden="true"></i>10</li>
+                            <li><i class="fa-li fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i>10</li>
+                            <li><i class="fa-li fa fa-check" style="color: #58FA13;" aria-hidden="true"></i>10</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </div>
                     </td>
                 </tr>
-            </table>-->
+
+                <tr>
+                    <td>
+                        <span id="number" class="smallText">0</span><br/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32" />
+                    </td>
+                    <td>
+                        <span id="date" class="bigText">21/08/2017</span><br/>
+                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
+                    </td>
+                    <td>
+                        <span id="datePrev" class="bigText">10,99€</span><br/>
+                    </td>
+                    <td>
+                        <ul class="fa-ul">
+                            <li><i class="fa-li fa fa-shopping-bag" aria-hidden="true"></i>10</li>
+                            <li><i class="fa-li fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i>10</li>
+                            <li><i class="fa-li fa fa-check" style="color: #58FA13;" aria-hidden="true"></i>10</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span id="number" class="smallText">0</span><br/>
+                        <img src="images/icons/aliexpress.png" width="32" height="32" />
+                    </td>
+                    <td>
+                        <span id="date" class="bigText">21/08/2017</span><br/>
+                        <span id="datePrev" class="normalText">21/10/2017</span><br/>
+                    </td>
+                    <td>
+                        <span id="datePrev" class="bigText">10,99€</span><br/>
+                    </td>
+                    <td>
+                        <ul class="fa-ul">
+                            <li><i class="fa-li fa fa-shopping-bag" aria-hidden="true"></i>10</li>
+                            <li><i class="fa-li fa fa-plane" style="color: #1976D2;" aria-hidden="true"></i>10</li>
+                            <li><i class="fa-li fa fa-check" style="color: #58FA13;" aria-hidden="true"></i>10</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <table class="flatTable panelRight">
+                <caption>
+                    21/08/2017
+                </caption>
+                <tr class="headingTr">
+                    <td class="tdSmall">STATO</td>
+                    <td>OGGETTO</td>
+                    <td class="tdSmall">TOTALE</td>
+                    <td class="tdSmall"></td>
+                    <td class="tdMini"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span id="number" class="smallText">0</span><br/>
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
+                        <span id="datePrev" class="normalText">Gialli, S</span><br/>
+                        <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
+                    </td>
+                    <td>
+                        <ul class="fa-ul">
+                            <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
+                            <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
+                            <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>
+                    </td>
+                    <td style="background: blue;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span id="number" class="smallText">0</span><br/>
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </td>
+
+                    <td>
+                        <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
+                        <span id="datePrev" class="normalText">Gialli, S</span><br/>
+                        <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
+                    </td>
+                    <td>
+                        <ul class="fa-ul">
+                            <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
+                            <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
+                            <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>
+                    </td>
+                    <td style="background: blue;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span id="number" class="smallText">0</span><br/>
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
+                        <span id="datePrev" class="normalText">Gialli, S</span><br/>
+                        <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
+                    </td>
+                    <td>
+                        <ul class="fa-ul">
+                            <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
+                            <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
+                            <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="button black">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </div>
+                    </td>
+                    <td style="background: blue;">
+                    </td>
+                </tr>
+            </table>
+
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
     <script>
         /*
-        var config = {
-            apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
-            authDomain: "shoptrack-658c5.firebaseapp.com",
-            databaseURL: "https://shoptrack-658c5.firebaseio.com",
-            projectId: "shoptrack-658c5",
-            storageBucket: "shoptrack-658c5.appspot.com",
-            messagingSenderId: "123504057587"
-            };
+                                                var config = {
+                                                    apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
+                                                    authDomain: "shoptrack-658c5.firebaseapp.com",
+                                                    databaseURL: "https://shoptrack-658c5.firebaseio.com",
+                                                    projectId: "shoptrack-658c5",
+                                                    storageBucket: "shoptrack-658c5.appspot.com",
+                                                    messagingSenderId: "123504057587"
+                                                    };
 
-        firebase.initializeApp(config);
+                                                firebase.initializeApp(config);
 
-        var orders = firebase.database().ref('orders');
+                                                var orders = firebase.database().ref('orders');
 
-        orders.on("value", function(snapshot) {
-            var data = snapshot.val();
-            var list = [];
-            console.log(data);
-            console.log("-----");
-            for (var key in data) {
-                console.log(key);
+                                                orders.on("value", function(snapshot) {
+                                                    var data = snapshot.val();
+                                                    var list = [];
+                                                    console.log(data);
+                                                    console.log("-----");
+                                                    for (var key in data) {
+                                                        console.log(key);
 
-                if (data.hasOwnProperty(key)) {
-                    list.push({
-                        key: key,
-                        store: getStore(data[key].Store),
-                        date: data[key].Date,
-                        datePrev: data[key].DatePrev
-                    })
-                }
-            }
+                                                        if (data.hasOwnProperty(key)) {
+                                                            list.push({
+                                                                key: key,
+                                                                store: getStore(data[key].Store),
+                                                                date: data[key].Date,
+                                                                datePrev: data[key].DatePrev
+                                                            })
+                                                        }
+                                                    }
 
-            console.log(list);
+                                                    console.log(list);
 
-            // refresh the UI
-            var lis = '';
-            for (var i = 0; i < list.length; i++) {
-                lis += createElement(list[i]);
-            };
-            document.getElementById('orders').innerHTML = lis;
-        });
-
-
-        function getStore(id) {
-            switch(id){
-                case 0: return "Aliexpress"; break;
-                case 1: return "Gearbest"; break;
-                case 2: return "Amazon"; break;
-                case 3: return "eBay"; break;
-                case 4: return "Girada"; break;
-                default: return "NoStore";
-            }
-        }
+                                                    // refresh the UI
+                                                    var lis = '';
+                                                    for (var i = 0; i < list.length; i++) {
+                                                        lis += createElement(list[i]);
+                                                    };
+                                                    document.getElementById('orders').innerHTML = lis;
+                                                });
 
 
-        function createElement(element){
-            var lis = "<li><div class='topMenu'>";
-            lis += "<div> " + element.key + " </div>";
-            lis += "<div> | " + element.store + " </div>";
-            lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
-            lis += "<div> | 0,00€  </div>";
-            lis += "</div></li>";
+                                                function getStore(id) {
+                                                    switch(id){
+                                                        case 0: return "Aliexpress"; break;
+                                                        case 1: return "Gearbest"; break;
+                                                        case 2: return "Amazon"; break;
+                                                        case 3: return "eBay"; break;
+                                                        case 4: return "Girada"; break;
+                                                        default: return "NoStore";
+                                                    }
+                                                }
 
-            return lis;
-        }*/
+
+                                                function createElement(element){
+                                                    var lis = "<li><div class='topMenu'>";
+                                                    lis += "<div> " + element.key + " </div>";
+                                                    lis += "<div> | " + element.store + " </div>";
+                                                    lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
+                                                    lis += "<div> | 0,00€  </div>";
+                                                    lis += "</div></li>";
+
+                                                    return lis;
+                                                }*/
     </script>
 </body>
 

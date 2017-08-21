@@ -6,6 +6,14 @@
     color: #6b6b6b;
 }
 
+.flatTable caption {
+    height: 30px;
+    font-size: 10pt;
+    background: #303030;
+    color: white;
+    line-height: 30px;
+}
+
 .flatTable tr {
     height: 50px;
     background: white;
@@ -27,4 +35,12 @@
 
 .tdSmall {
     width: 60px;
+}
+
+.tdMini {
+    width: 15px;
+}
+
+.trSelected td {
+    background: #F0F0F0;
 }

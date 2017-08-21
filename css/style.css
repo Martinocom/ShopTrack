@@ -126,15 +126,36 @@ table tr .details {
 
 .normalText {
     font-size: 11px;
+    line-height: 11px;
 }
 
 .smallText {
     font-size: 9px;
 }
 
-
+.fa-ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 23px;
+}
 
 .itemTitle {
     font-weight: bold;
     padding-bottom: 5px;
+}
+
+.panelLeft {
+    width: 100%;
+}
+
+.panelRight {
+    display: none;  
+}
+
+@media screen and (max-width: 450px) {
+    .fa-ul {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 23px;
+    }
 }
