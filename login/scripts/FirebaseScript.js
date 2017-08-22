@@ -39,8 +39,12 @@ function SignUp() {
     if (firebase.auth().currentUser) {
       firebase.auth().signOut();
     } else {
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
+      //var email = document.getElementById('email').value;
+      //var password = document.getElementById('password').value;
+
+      var email = "prova@a.it";
+      var password = "123456789ST";
+
       if (email.length < 4) {
         alert('Please enter an email address.');
         return;
@@ -65,6 +69,8 @@ function SignUp() {
     document.getElementById('btnSignIn').disabled = true;
   }
 
-  function signOut(){
+  function LogOut(){
       firebase.auth().signOut();
+      alert("Logout Effettuato");
+      document.getElementById('btnSignIn').disabled = false;
   }
