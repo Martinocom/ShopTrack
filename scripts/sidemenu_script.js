@@ -15,9 +15,12 @@ function openNav() {
     } else {
         //Opening details
         $('.details').css("display", "none");
-        $('.master').css("display", "block");
+        $('.master').css("display", "inline-table");
 
         isDetailsOpened = false;
+
+        $('#buttonsMaster').css("display", "flex");
+        $('#buttonsDetails').css("display", "none");
 
         $('#menuOpener').removeClass('fa-arrow-left');
         $('#menuOpener').addClass('fa-bars');

@@ -152,6 +152,14 @@ table tr .details {
     display: none;  
 }
 
+#buttonsMaster {
+    display: flex;
+}
+
+#buttonsDetails {
+    display: none;
+}
+
 @media screen and (max-width: 450px) {
     .fa-ul {
         margin-top: 5px;
