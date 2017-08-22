@@ -144,11 +144,11 @@ table tr .details {
     padding-bottom: 5px;
 }
 
-.panelLeft {
+.master {
     width: 100%;
 }
 
-.panelRight {
+.details {
     display: none;  
 }
 
