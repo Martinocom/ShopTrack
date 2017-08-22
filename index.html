@@ -47,7 +47,7 @@
         <div class="top">
             <div class="stackHorizontal">
                 <div class="button" onclick="openNav()"><i id="menuOpener" class="fa fa-bars" aria-hidden="true"></i></div>
-                <div class="title"><span id="debug"></span>Home</div>
+                <div class="title"><span id="title" id="debug">Home</span></div>
             </div>
 
             <div class="stackHorizontal">
@@ -58,7 +58,7 @@
 
 
         <div id="content" class="content stackHorizontal">
-            <table class="flatTable panelLeft">
+            <table class="flatTable master">
                 <tr class="headingTr">
                     <td class="tdSmall">STORE</td>
                     <td>DATA</td>
@@ -147,97 +147,99 @@
             </table>
 
 
-            <table class="flatTable panelRight">
-                <caption>
-                    21/08/2017
-                </caption>
-                <tr class="headingTr">
-                    <td class="tdSmall">STATO</td>
-                    <td>OGGETTO</td>
-                    <td class="tdSmall">TOTALE</td>
-                    <td class="tdSmall"></td>
-                    <td class="tdMini"></td>
-                </tr>
+            <div class="details">
+                <table class="flatTable">
+                    <caption>
+                        21/08/2017
+                    </caption>
+                    <tr class="headingTr">
+                        <td class="tdSmall">STATO</td>
+                        <td>OGGETTO</td>
+                        <td class="tdSmall">TOTALE</td>
+                        <td class="tdSmall"></td>
+                        <td class="tdMini"></td>
+                    </tr>
 
-                <tr>
-                    <td>
-                        <span id="number" class="smallText">0</span><br/>
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                    </td>
-                    <td>
-                        <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
-                        <span id="datePrev" class="normalText">Gialli, S</span><br/>
-                        <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
-                    </td>
-                    <td>
-                        <ul class="fa-ul">
-                            <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
-                            <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
-                            <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <div class="button black">
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </div>
-                    </td>
-                    <td style="background: blue;">
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <span id="number" class="smallText">0</span><br/>
+                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </td>
+                        <td>
+                            <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
+                            <span id="datePrev" class="normalText">Gialli, S</span><br/>
+                            <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
+                        </td>
+                        <td>
+                            <ul class="fa-ul">
+                                <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
+                                <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
+                                <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="button black">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td style="background: blue;">
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>
-                        <span id="number" class="smallText">0</span><br/>
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                    </td>
+                    <tr>
+                        <td>
+                            <span id="number" class="smallText">0</span><br/>
+                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </td>
 
-                    <td>
-                        <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
-                        <span id="datePrev" class="normalText">Gialli, S</span><br/>
-                        <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
-                    </td>
-                    <td>
-                        <ul class="fa-ul">
-                            <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
-                            <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
-                            <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <div class="button black">
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </div>
-                    </td>
-                    <td style="background: blue;">
-                    </td>
-                </tr>
+                        <td>
+                            <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
+                            <span id="datePrev" class="normalText">Gialli, S</span><br/>
+                            <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
+                        </td>
+                        <td>
+                            <ul class="fa-ul">
+                                <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
+                                <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
+                                <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="button black">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td style="background: blue;">
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>
-                        <span id="number" class="smallText">0</span><br/>
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                    </td>
-                    <td>
-                        <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
-                        <span id="datePrev" class="normalText">Gialli, S</span><br/>
-                        <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
-                    </td>
-                    <td>
-                        <ul class="fa-ul">
-                            <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
-                            <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
-                            <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <div class="button black">
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </div>
-                    </td>
-                    <td style="background: blue;">
-                    </td>
-                </tr>
-            </table>
+                    <tr>
+                        <td>
+                            <span id="number" class="smallText">0</span><br/>
+                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </td>
+                        <td>
+                            <a href="#"><span id="date" class="bigText">Occhiali</span></a><br/>
+                            <span id="datePrev" class="normalText">Gialli, S</span><br/>
+                            <span id="datePrev" class="normalText">10,00€ x 3</span><br/>
+                        </td>
+                        <td>
+                            <ul class="fa-ul">
+                                <li><i class="fa-li fa fa-tag" aria-hidden="true"></i>30€</li>
+                                <li><i class="fa-li fa fa-user" aria-hidden="true"></i>Nadir</li>
+                                <li><i class="fa-li fa fa-credit-card-alt" aria-hidden="true"></i>Marci</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="button black">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td style="background: blue;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
         </div>
     </div>
@@ -245,70 +247,70 @@
     <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
     <script>
         /*
-                                                var config = {
-                                                    apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
-                                                    authDomain: "shoptrack-658c5.firebaseapp.com",
-                                                    databaseURL: "https://shoptrack-658c5.firebaseio.com",
-                                                    projectId: "shoptrack-658c5",
-                                                    storageBucket: "shoptrack-658c5.appspot.com",
-                                                    messagingSenderId: "123504057587"
-                                                    };
+                                                        var config = {
+                                                            apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
+                                                            authDomain: "shoptrack-658c5.firebaseapp.com",
+                                                            databaseURL: "https://shoptrack-658c5.firebaseio.com",
+                                                            projectId: "shoptrack-658c5",
+                                                            storageBucket: "shoptrack-658c5.appspot.com",
+                                                            messagingSenderId: "123504057587"
+                                                            };
 
-                                                firebase.initializeApp(config);
+                                                        firebase.initializeApp(config);
 
-                                                var orders = firebase.database().ref('orders');
+                                                        var orders = firebase.database().ref('orders');
 
-                                                orders.on("value", function(snapshot) {
-                                                    var data = snapshot.val();
-                                                    var list = [];
-                                                    console.log(data);
-                                                    console.log("-----");
-                                                    for (var key in data) {
-                                                        console.log(key);
+                                                        orders.on("value", function(snapshot) {
+                                                            var data = snapshot.val();
+                                                            var list = [];
+                                                            console.log(data);
+                                                            console.log("-----");
+                                                            for (var key in data) {
+                                                                console.log(key);
 
-                                                        if (data.hasOwnProperty(key)) {
-                                                            list.push({
-                                                                key: key,
-                                                                store: getStore(data[key].Store),
-                                                                date: data[key].Date,
-                                                                datePrev: data[key].DatePrev
-                                                            })
+                                                                if (data.hasOwnProperty(key)) {
+                                                                    list.push({
+                                                                        key: key,
+                                                                        store: getStore(data[key].Store),
+                                                                        date: data[key].Date,
+                                                                        datePrev: data[key].DatePrev
+                                                                    })
+                                                                }
+                                                            }
+
+                                                            console.log(list);
+
+                                                            // refresh the UI
+                                                            var lis = '';
+                                                            for (var i = 0; i < list.length; i++) {
+                                                                lis += createElement(list[i]);
+                                                            };
+                                                            document.getElementById('orders').innerHTML = lis;
+                                                        });
+
+
+                                                        function getStore(id) {
+                                                            switch(id){
+                                                                case 0: return "Aliexpress"; break;
+                                                                case 1: return "Gearbest"; break;
+                                                                case 2: return "Amazon"; break;
+                                                                case 3: return "eBay"; break;
+                                                                case 4: return "Girada"; break;
+                                                                default: return "NoStore";
+                                                            }
                                                         }
-                                                    }
-
-                                                    console.log(list);
-
-                                                    // refresh the UI
-                                                    var lis = '';
-                                                    for (var i = 0; i < list.length; i++) {
-                                                        lis += createElement(list[i]);
-                                                    };
-                                                    document.getElementById('orders').innerHTML = lis;
-                                                });
 
 
-                                                function getStore(id) {
-                                                    switch(id){
-                                                        case 0: return "Aliexpress"; break;
-                                                        case 1: return "Gearbest"; break;
-                                                        case 2: return "Amazon"; break;
-                                                        case 3: return "eBay"; break;
-                                                        case 4: return "Girada"; break;
-                                                        default: return "NoStore";
-                                                    }
-                                                }
+                                                        function createElement(element){
+                                                            var lis = "<li><div class='topMenu'>";
+                                                            lis += "<div> " + element.key + " </div>";
+                                                            lis += "<div> | " + element.store + " </div>";
+                                                            lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
+                                                            lis += "<div> | 0,00€  </div>";
+                                                            lis += "</div></li>";
 
-
-                                                function createElement(element){
-                                                    var lis = "<li><div class='topMenu'>";
-                                                    lis += "<div> " + element.key + " </div>";
-                                                    lis += "<div> | " + element.store + " </div>";
-                                                    lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
-                                                    lis += "<div> | 0,00€  </div>";
-                                                    lis += "</div></li>";
-
-                                                    return lis;
-                                                }*/
+                                                            return lis;
+                                                        }*/
     </script>
 </body>
 
