@@ -9,16 +9,25 @@
     <script src="scripts/sidemenu_script.js"></script>
     <script src="scripts/table_script.js"></script>
 
+    <script src="scripts/uglipop.js"></script>
+    <script src="scripts/modal_script.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/table_style.css">
     <link rel="stylesheet" type="text/css" href="css/sidemenu_style.css">
+    <link rel="stylesheet" type="text/css" href="css/modal_style.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
+    <div id='dialog' style='display:none;'>
+        douewhfnapormg
+        <span class="bigText">Ciao!</span>
+    </div>
+
     <div id="sideMenu" class="sideMenu">
         <div class="fixedMenu">
             <div class="stackHorizontal clickable selected">
@@ -51,7 +60,7 @@
             </div>
 
             <div id="buttonsMaster" class="stackHorizontal">
-                <div class="button"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                <div class="button" onclick="showAddInfo()"><i class="fa fa-plus" aria-hidden="true"></i></div>
                 <div class="button accent"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
             </div>
 
@@ -63,7 +72,9 @@
 
 
         <div id="content" class="content stackHorizontal">
-            <table class="flatTable master">
+
+
+            <table id="mainTable" class="flatTable master">
                 <tr class="headingTr">
                     <td class="tdSmall">STORE</td>
                     <td>DATA</td>
@@ -72,6 +83,109 @@
                     <td class="tdSmall"></td>
                 </tr>
 
+                <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+                <script>
+                    var config = {
+                        apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
+                        authDomain: "shoptrack-658c5.firebaseapp.com",
+                        databaseURL: "https://shoptrack-658c5.firebaseio.com",
+                        projectId: "shoptrack-658c5",
+                        storageBucket: "shoptrack-658c5.appspot.com",
+                        messagingSenderId: "123504057587"
+                    };
+
+                    firebase.initializeApp(config);
+
+                    var orders = firebase.database().ref('orders');
+
+                    orders.on("value", function (snapshot) {
+                        var data = snapshot.val();
+                        var list = [];
+
+                        for (var key in data) {
+                            console.log(key);
+
+                            if (data.hasOwnProperty(key)) {
+                                list.push({
+                                    key: key,
+                                    store: getStore(data[key].Store),
+                                    date: data[key].Date,
+                                    datePrev: data[key].DatePrev,
+                                    ammount: 0.00,
+                                    itemsCount: 5,
+                                    shippedCount: 3,
+                                    receivedCount: 2
+                                })
+                            }
+                        }
+
+                        console.log(list);
+
+                        // refresh the UI
+                        var lis = '';
+                        for (var i = 0; i < list.length; i++) {
+                            lis += createElement(list[i]);
+                        };
+
+                        $("#mainTable").append(lis);
+
+                        //document.getElementById('orders').innerHTML = lis;
+                    });
+
+
+                    function getStore(id) {
+                        switch (id) {
+                            case 0:
+                                return "Aliexpress";
+                                break;
+                            case 1:
+                                return "Gearbest";
+                                break;
+                            case 2:
+                                return "Amazon";
+                                break;
+                            case 3:
+                                return "eBay";
+                                break;
+                            case 4:
+                                return "Girada";
+                                break;
+                            default:
+                                return "NoStore";
+                        }
+                    }
+
+
+                    function createElement(element) {
+                        var lis = "<tr><td>";
+                        lis += "<span class='smallText'>" + element.key + "</span><br/>"
+                        lis += "<img src='images/icons/aliexpress.png' width='32' height='32' />";
+                        lis += "</td> <td>";
+                        lis += "<span class='bigText'>" + element.date + "</span><br/>";
+                        lis += "<span class='normalText'>" + element.datePrev + "</span><br/>";
+                        lis += "</td><td><span class='bigText'>" + element.ammount + "</span><br/>";
+                        lis += "</td><td>";
+                        lis += "<ul class='fa-ul'>";
+                        lis += "<li><i class='fa-li fa fa-shopping-bag' aria-hidden='true'></i>" + element.itemsCount + "</li>"
+                        lis += "<li><i class='fa-li fa fa-plane' style='color: #1976D2;' aria-hidden='true'></i>" + element.shippedCount + "</li>";
+                        lis += "<li><i class='fa-li fa fa-check' style='color: #58FA13;' aria-hidden='true'></i>" + element.receivedCount + "</li>";
+                        lis += "</ul></td><td><div class='button black'>";
+                        lis += "<i class='fa fa-ellipsis-v' aria-hidden='true'></i>"
+                        lis += "</div></td></tr>";
+
+                        /*
+                        var lis = "<li><div class='topMenu'>";
+                        lis += "<div> " + element.key + " </div>";
+                        lis += "<div> | " + element.store + " </div>";
+                        lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
+                        lis += "<div> | 0,00€  </div>";
+                        lis += "</div></li>";*/
+
+                        return lis;
+                    }
+                </script>
+
+                <!--
                 <tr>
                     <td>
                         <span id="number" class="smallText">0</span><br/>
@@ -148,7 +262,7 @@
                             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </div>
                     </td>
-                </tr>
+                </tr>-->
             </table>
 
 
@@ -246,73 +360,72 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
     <script>
         /*
-                                                                var config = {
-                                                                    apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
-                                                                    authDomain: "shoptrack-658c5.firebaseapp.com",
-                                                                    databaseURL: "https://shoptrack-658c5.firebaseio.com",
-                                                                    projectId: "shoptrack-658c5",
-                                                                    storageBucket: "shoptrack-658c5.appspot.com",
-                                                                    messagingSenderId: "123504057587"
-                                                                    };
+                                                                                                                var config = {
+                                                                                                                    apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
+                                                                                                                    authDomain: "shoptrack-658c5.firebaseapp.com",
+                                                                                                                    databaseURL: "https://shoptrack-658c5.firebaseio.com",
+                                                                                                                    projectId: "shoptrack-658c5",
+                                                                                                                    storageBucket: "shoptrack-658c5.appspot.com",
+                                                                                                                    messagingSenderId: "123504057587"
+                                                                                                                    };
 
-                                                                firebase.initializeApp(config);
+                                                                                                                firebase.initializeApp(config);
 
-                                                                var orders = firebase.database().ref('orders');
+                                                                                                                var orders = firebase.database().ref('orders');
 
-                                                                orders.on("value", function(snapshot) {
-                                                                    var data = snapshot.val();
-                                                                    var list = [];
-                                                                    console.log(data);
-                                                                    console.log("-----");
-                                                                    for (var key in data) {
-                                                                        console.log(key);
+                                                                                                                orders.on("value", function(snapshot) {
+                                                                                                                    var data = snapshot.val();
+                                                                                                                    var list = [];
+                                                                                                                    console.log(data);
+                                                                                                                    console.log("-----");
+                                                                                                                    for (var key in data) {
+                                                                                                                        console.log(key);
 
-                                                                        if (data.hasOwnProperty(key)) {
-                                                                            list.push({
-                                                                                key: key,
-                                                                                store: getStore(data[key].Store),
-                                                                                date: data[key].Date,
-                                                                                datePrev: data[key].DatePrev
-                                                                            })
-                                                                        }
-                                                                    }
+                                                                                                                        if (data.hasOwnProperty(key)) {
+                                                                                                                            list.push({
+                                                                                                                                key: key,
+                                                                                                                                store: getStore(data[key].Store),
+                                                                                                                                date: data[key].Date,
+                                                                                                                                datePrev: data[key].DatePrev
+                                                                                                                            })
+                                                                                                                        }
+                                                                                                                    }
 
-                                                                    console.log(list);
+                                                                                                                    console.log(list);
 
-                                                                    // refresh the UI
-                                                                    var lis = '';
-                                                                    for (var i = 0; i < list.length; i++) {
-                                                                        lis += createElement(list[i]);
-                                                                    };
-                                                                    document.getElementById('orders').innerHTML = lis;
-                                                                });
-
-
-                                                                function getStore(id) {
-                                                                    switch(id){
-                                                                        case 0: return "Aliexpress"; break;
-                                                                        case 1: return "Gearbest"; break;
-                                                                        case 2: return "Amazon"; break;
-                                                                        case 3: return "eBay"; break;
-                                                                        case 4: return "Girada"; break;
-                                                                        default: return "NoStore";
-                                                                    }
-                                                                }
+                                                                                                                    // refresh the UI
+                                                                                                                    var lis = '';
+                                                                                                                    for (var i = 0; i < list.length; i++) {
+                                                                                                                        lis += createElement(list[i]);
+                                                                                                                    };
+                                                                                                                    document.getElementById('orders').innerHTML = lis;
+                                                                                                                });
 
 
-                                                                function createElement(element){
-                                                                    var lis = "<li><div class='topMenu'>";
-                                                                    lis += "<div> " + element.key + " </div>";
-                                                                    lis += "<div> | " + element.store + " </div>";
-                                                                    lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
-                                                                    lis += "<div> | 0,00€  </div>";
-                                                                    lis += "</div></li>";
+                                                                                                                function getStore(id) {
+                                                                                                                    switch(id){
+                                                                                                                        case 0: return "Aliexpress"; break;
+                                                                                                                        case 1: return "Gearbest"; break;
+                                                                                                                        case 2: return "Amazon"; break;
+                                                                                                                        case 3: return "eBay"; break;
+                                                                                                                        case 4: return "Girada"; break;
+                                                                                                                        default: return "NoStore";
+                                                                                                                    }
+                                                                                                                }
 
-                                                                    return lis;
-                                                                }*/
+
+                                                                                                                function createElement(element){
+                                                                                                                    var lis = "<li><div class='topMenu'>";
+                                                                                                                    lis += "<div> " + element.key + " </div>";
+                                                                                                                    lis += "<div> | " + element.store + " </div>";
+                                                                                                                    lis += "<div class='title'> | " + element.date + " - " + element.datePrev + "</div>";
+                                                                                                                    lis += "<div> | 0,00€  </div>";
+                                                                                                                    lis += "</div></li>";
+
+                                                                                                                    return lis;
+                                                                                                                }*/
     </script>
 </body>
 
