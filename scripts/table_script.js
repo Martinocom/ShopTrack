@@ -12,7 +12,7 @@ function tableClick(key) {
         //Opening details
         createTable();
 
-        $('.details').css("display", "contents");
+        $('.details').css("display", "block");
         $('.master').css("display", "none");
 
         isDetailsOpened = true;
