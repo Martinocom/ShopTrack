@@ -33,6 +33,7 @@ function SignUp() {
       }
       console.log(error);
     });
+
   }
 
   function SignIn() {
@@ -65,6 +66,15 @@ function SignUp() {
         document.getElementById('btnSignIn').disabled = false;
       });
       alert("Login Effettuato");
+      
+      firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+          console.log(user);
+          console.log(user['uid']);
+          window.location = '../index.html';
+          document.cookie = user['uid'];
+        }
+      });
     }
     document.getElementById('btnSignIn').disabled = true;
   }
@@ -72,5 +82,6 @@ function SignUp() {
   function LogOut(){
       firebase.auth().signOut();
       alert("Logout Effettuato");
+      document.cookie = "";
       document.getElementById('btnSignIn').disabled = false;
   }
