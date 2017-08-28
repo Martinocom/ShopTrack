@@ -83,4 +83,5 @@ function LogOut(){
     alert("Logout Effettuato");
     document.cookie = "";
     document.getElementById('btnLogOut').disabled = false;
+    windows.open('index.html','_self',false);
 }

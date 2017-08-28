@@ -71,8 +71,11 @@ function SignUp() {
         if(user) {
           console.log(user);
           console.log(user['uid']);
-          window.location = '../index.html';
-          document.cookie = user['uid'];
+          //window.location = '../index.html';
+          document.cookie = "userID="+user['uid'];
+          var tmpcookie = document.cookie.split(';');
+          console.log(tmpcookie[0]);
+          console.log(document.cookie.getElementById("userID"));
         }
       });
     }
@@ -82,6 +85,6 @@ function SignUp() {
   function LogOut(){
       firebase.auth().signOut();
       alert("Logout Effettuato");
-      document.cookie = "";
+      document.cookie = "userID=";
       document.getElementById('btnSignIn').disabled = false;
   }

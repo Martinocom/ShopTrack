@@ -6,3 +6,10 @@ $(document).ready(function () {
         window.open('index.html', '_self', false);
     }
 });
+
+function LogOut(){
+    firebase.auth().signOut();
+    alert("Logout Effettuato");
+    document.cookie = "";
+    window.open('index.html', '_self', false);
+}
