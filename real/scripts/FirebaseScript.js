@@ -71,7 +71,7 @@ function SignIn() {
       if(user) {
         console.log(user);
         console.log(user['uid']);
-        window.location = '../index.html';
+        window.open('mainTable.html', '_self', false);
         document.cookie = user['uid'];
       }
     });
