@@ -37,12 +37,8 @@ function SignUp() {
 }
 
 function SignIn() {
-  if (firebase.auth().currentUser) {
-    firebase.auth().signOut();
-  } else {
-    //var email = document.getElementById('email').value;
-    //var password = document.getElementById('password').value;
-
+    checkLogin();
+    
     var email = "prova@a.it";
     var password = "123456789ST";
 
@@ -75,9 +71,12 @@ function SignIn() {
         document.cookie = user['uid'];
       }
     });
+
+    document.getElementById('btnSignInS').disabled = true;
   }
-  document.getElementById('btnSignInS').disabled = true;
-}
+
+//}
+
 
 function LogOut(){
     firebase.auth().signOut();
