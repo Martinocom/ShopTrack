@@ -234,7 +234,14 @@
 
 
                     function createElement(element) {
-                        var lis = "<tr id='tr"+ element.key +"' class='trClickable' onClick='tableClick("+ element.key +")'><td>";
+                        var lis = "";
+                        if (key == element.key) {
+                            lis = "<tr id='tr"+ element.key +"' class='trClickable trSelected' onClick='tableClick("+ element.key +")'><td>";
+                        }
+                        else {
+                            lis = "<tr id='tr"+ element.key +"' class='trClickable' onClick='tableClick("+ element.key +")'><td>";
+                        }
+
                         lis += "<span class='smallText'>" + element.key + "</span><br/>"
                         lis += "<img src='" + element.storeIcon + "' width='28' height='28' />";
                         lis += "</td> <td>";

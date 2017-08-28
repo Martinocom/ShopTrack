@@ -1,13 +1,9 @@
 var currentSelection = null;
+var key = null;
 
 $(document).ready(function () {
     var url = new URL(window.location.href);
     key = url.searchParams.get("id");
-
-    if (key != null){
-        $("#tr" + key).addClass("trSelected");
-        currentSelection = $(this).parent('tr');
-    }
 });
 
 
