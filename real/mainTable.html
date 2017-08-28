@@ -7,14 +7,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="scripts/sidemenu_script.js"></script>
-    <script src="scripts/table_script.js"></script>
+    <script src="scripts/maintable_script.js"></script>
 
     <script src="scripts/uglipop.js"></script>
     <script src="scripts/modal_script.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/maintable_style.css">
+    <link rel="stylesheet" type="text/css" href="css/page_style.css">
     <link rel="stylesheet" type="text/css" href="css/table_style.css">
     <link rel="stylesheet" type="text/css" href="css/sidemenu_style.css">
     <link rel="stylesheet" type="text/css" href="css/modal_style.css">
@@ -234,7 +234,7 @@
 
 
                     function createElement(element) {
-                        var lis = "<tr class='trClickable' onClick='tableClick("+ element.key +")'><td>";
+                        var lis = "<tr id='tr"+ element.key +"' class='trClickable' onClick='tableClick("+ element.key +")'><td>";
                         lis += "<span class='smallText'>" + element.key + "</span><br/>"
                         lis += "<img src='" + element.storeIcon + "' width='28' height='28' />";
                         lis += "</td> <td>";

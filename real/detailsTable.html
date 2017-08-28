@@ -6,15 +6,16 @@
     <meta charset="UTF-8">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
     <script src="scripts/sidemenu_script.js"></script>
-    <script src="scripts/table_script.js"></script>
+    <script src="scripts/detailtable_script.js"></script>
 
     <script src="scripts/uglipop.js"></script>
     <script src="scripts/modal_script.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/maintable_style.css">
+    <link rel="stylesheet" type="text/css" href="css/page_style.css">
     <link rel="stylesheet" type="text/css" href="css/table_style.css">
     <link rel="stylesheet" type="text/css" href="css/sidemenu_style.css">
     <link rel="stylesheet" type="text/css" href="css/modal_style.css">
@@ -55,7 +56,7 @@
     <div id="main" class="main">
         <div class="top">
             <div class="stackHorizontal">
-                <div class="button" onclick="openNav()"><i id="menuOpener" class="fa fa-bars" aria-hidden="true"></i></div>
+                <div class="button" onclick="goBack()"><i id="menuOpener" class="fa fa-arrow-left" aria-hidden="true"></i></div>
                 <div class="title"><span id="title" id="debug">Dettagli</span></div>
             </div>
 
@@ -69,13 +70,13 @@
         <div id="content" class="content">
 
 
-            <table id="mainTable" class="flatTable master">
+            <table id="detailsTable" class="flatTable">
                 <tr class="headingTr">
-                    <td class="tdSmall">STORE</td>
-                    <td>DATA</td>
-                    <td>TOTALE</td>
                     <td class="tdSmall">STATO</td>
+                    <td>OGGETTO</td>
+                    <td class="tdSmall">TOTALE</td>
                     <td class="tdSmall"></td>
+                    <td class="tdMini"></td>
                 </tr>
 
                 <tr id="loadingTR">
@@ -84,203 +85,8 @@
                         <span class="bigText"> Caricamento...</span>
                     </td>
                 </tr>
-
-                <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
-                <script>
-                    var config = {
-                        apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
-                        authDomain: "shoptrack-658c5.firebaseapp.com",
-                        databaseURL: "https://shoptrack-658c5.firebaseio.com",
-                        projectId: "shoptrack-658c5",
-                        storageBucket: "shoptrack-658c5.appspot.com",
-                        messagingSenderId: "123504057587"
-                    };
-
-                    firebase.initializeApp(config);
-
-                    var orders = firebase.database().ref('orders');
-
-
-                    orders.on("value", function (snapshot) {
-                        var data = snapshot.val();
-                        var list = [];
-
-                        //console.log(data);
-
-                        for (var key in data) {
-                            if (data.hasOwnProperty(key)) {
-                                list.push({
-                                    key: key,
-                                    store: getStore(data[key].Store),
-                                    storeIcon: getStoreIcon(data[key].Store),
-                                    date: getDate(data[key].Date),
-                                    datePrev: getDate(data[key].DatePrev),
-                                    items: data[key].Items,
-                                    ammount: getAmmount(data[key].Items),
-                                    itemsCount: data[key].Items.length,
-                                    shippedCount: getShipped(data[key].Items),
-                                    receivedCount: getReceived(data[key].Items)
-                                })
-                            }
-                        }
-
-                        list.reverse();
-
-                        // refresh the UI
-                        var lis = '';
-                        for (var i = 0; i < list.length; i++) {
-                            lis += createElement(list[i]);
-                        };
-
-                        $("#loadingTR").animate({
-                            opacity: 0.25,
-                            height: "toggle"
-                        }, 300, function () {
-                            $(this).remove();
-                        });
-
-                        $("#mainTable").append(lis);
-                    });
-
-                    function getDate(date) {
-                        var d = date.split("-");
-                        var day = d[2].substring(0, 2);
-                        var month = d[1];
-                        var year = d[0];
-
-                        return day + "/" + month + "/" + year;
-                    }
-
-                    function getStore(id) {
-                        switch (id) {
-                            case 0:
-                                return "Aliexpress";
-                                break;
-                            case 1:
-                                return "Gearbest";
-                                break;
-                            case 2:
-                                return "Amazon";
-                                break;
-                            case 3:
-                                return "eBay";
-                                break;
-                            case 4:
-                                return "Girada";
-                                break;
-                            default:
-                                return "NoStore";
-                        }
-                    }
-
-                    function getStoreIcon(id) {
-                        switch (id) {
-                            case 0:
-                                return "images/icons/aliexpress.png";
-                                break;
-                            case 1:
-                                return "images/icons/gearbest.png";
-                                break;
-                            case 2:
-                                return "images/icons/amazon.png";
-                                break;
-                            case 3:
-                                return "images/icons/ebay.png";
-                                break;
-                            case 4:
-                                return "images/icons/unknown.png";
-                                break;
-                            default:
-                                return "images/icons/unknown.png";
-                        }
-                    }
-
-                    function getAmmount(items) {
-                        var amm = 0.00;
-                        var i = 0
-
-                        for (i = 0; i < items.length; i++) {
-                            amm += items[i].Payment.Ammount;
-                        }
-
-                        return amm.toFixed(2);
-                    }
-
-                    function getShipped(items) {
-                        var ship = 0;
-                        var i = 0
-
-                        for (i = 0; i < items.length; i++) {
-                            if (items[i].Status == 1) {
-                                ship++;
-                            }
-                        }
-
-                        return ship;
-                    }
-
-                    function getReceived(items) {
-                        var rec = 0;
-                        var i = 0
-
-                        for (i = 0; i < items.length; i++) {
-                            if (items[i].Status == 2) {
-                                rec++;
-                            }
-                        }
-
-                        return rec;
-                    }
-
-
-                    function createElement(element) {
-                        var lis = "<tr class='trClickable' onClick='tableClick("+ element.key +")'><td>";
-                        lis += "<span class='smallText'>" + element.key + "</span><br/>"
-                        lis += "<img src='" + element.storeIcon + "' width='28' height='28' />";
-                        lis += "</td> <td>";
-                        lis += "<span class='bigText'>" + element.date + "</span><br/>";
-                        lis += "<span class='normalText'>" + element.datePrev + "</span><br/>";
-                        lis += "</td><td><span class='bigText'>" + element.ammount + "€</span><br/>";
-                        lis += "</td><td>";
-                        lis += "<ul class='fa-ul'>";
-                        lis += "<li><i class='fa-li fa fa-shopping-bag' aria-hidden='true'></i>" + element.itemsCount +
-                            "</li>"
-                        lis += "<li><i class='fa-li fa fa-plane' style='color: #2196F3;' aria-hidden='true'></i>" +
-                            element.shippedCount + "</li>";
-                        lis += "<li><i class='fa-li fa fa-check' style='color: #58FA13;' aria-hidden='true'></i>" +
-                            element.receivedCount + "</li>";
-                        lis += "</ul></td><td><div class='button black'>";
-                        lis += "<i class='fa fa-ellipsis-v' aria-hidden='true'></i>"
-                        lis += "</div></td></tr>";
-
-                        return lis;
-                    }
-                </script>
+          
             </table>
-
-
-            <!--
-            <div id="details" class="details">
-                <table id="detailsTable" class="flatTable">
-                    <tr class="headingTr">
-                        <td class="tdSmall">STATO</td>
-                        <td>OGGETTO</td>
-                        <td class="tdSmall">TOTALE</td>
-                        <td class="tdSmall"></td>
-                        <td class="tdMini"></td>
-                    </tr>
-
-                    <tr id="loadingTRItems">
-                        <td colspan="5">
-                            <i class="fa fa-refresh fa-spin fa-3x fa-fw bigText"></i>
-                            <span class="bigText"> Caricamento...</span>
-                        </td>
-                    </tr>
-
-
-                </table>
-            </div>-->
-
         </div>
     </div>
 

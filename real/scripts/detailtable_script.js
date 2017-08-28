@@ -1,58 +1,28 @@
-var currentSelection = null;
+var key = null;
 
-function tableClick(key) {
-    if (currentSelection != null) {
-        currentSelection.removeClass("trSelected");
-    }
-
-    $(this).parent('tr').addClass("trSelected");
-    currentSelection = $(this).parent('tr');
-
-    if (!isDetailsOpened) {
-        //Opening details
-        createTable();
-
-        $('.details').css("display", "block");
-        $('.master').css("display", "none");
-
-        isDetailsOpened = true;
-
-        $('#buttonsMaster').css("display", "none");
-        $('#buttonsDetails').css("display", "flex");
-
-        $('#menuOpener').removeClass('fa-bars');
-        $('#menuOpener').addClass('fa-arrow-left');
-        $('#title').text("Dettagli");
+$(document).ready(function () {
+    var url = new URL(window.location.href);
+    key = url.searchParams.get("id");
 
 
-        orders.on("value", function (snapshot) {
-            var data = snapshot.val();
-            loadDetails(data[key].Items);
-        });
+    var config = {
+        apiKey: "AIzaSyD2Amywjsz8FWQ52tX6R-eJDbSXmt6bDvo",
+        authDomain: "shoptrack-658c5.firebaseapp.com",
+        databaseURL: "https://shoptrack-658c5.firebaseio.com",
+        projectId: "shoptrack-658c5",
+        storageBucket: "shoptrack-658c5.appspot.com",
+        messagingSenderId: "123504057587"
+    };
 
-        
-    }
-}
+    firebase.initializeApp(config);
 
-function createTable() {
-    if ($("#detailsTable") != null) {
-        $("#detailsTable").remove();
-    }
+    var orders = firebase.database().ref('orders');
 
-    var table = "<table id='detailsTable' class='flatTable'>";
-    table += "<tr class='headingTr'>";
-    table += "<td class='tdSmall'>STATO</td>";
-    table += "<td>OGGETTO</td>";
-    table += "<td class='tdSmall'>TOTALE</td>";
-    table += "<td class='tdSmall'></td>";
-    table += "<td class='tdMini'></td></tr>";
-
-    table += "<tr id='loadingTRItems'><td colspan='5'>";
-    table += "<i class='fa fa-refresh fa-spin fa-3x fa-fw bigText'></i>";
-    table += "<span class='bigText'> Caricamento...</span></td></tr></table>";
-
-    $("#details").append(table);
-}
+    orders.on("value", function (snapshot) {
+        var data = snapshot.val();
+        loadDetails(data[key].Items);
+    });
+});
 
 function loadDetails(items) {
     var i = 0;
@@ -70,18 +40,18 @@ function loadDetails(items) {
         tmp += "<span class='normalText'>" + items[i].SinglePrice + "€ x " + items[i].Quantity + "</span><br/></td>";
 
         tmp += "<td><ul class='fa-ul'>";
-        tmp += "<li><i class='fa-li fa fa-tag' aria-hidden='true'></i>" + items[i].Payment.Ammount + "</li>";
+        tmp += "<li><i class='fa-li fa fa-tag' aria-hidden='true'></i>" + items[i].Payment.Ammount + "€</li>";
         tmp += "<li><i class='fa-li fa fa-user' aria-hidden='true'></i>" + items[i].Payment.Buyer + "</li>"
         tmp += "<li><i class='fa-li fa fa-credit-card-alt' aria-hidden='true'></i>" + items[i].Payment.Payer + "</li></ul></td>"
 
         tmp += "<td><div class='button black'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></div></td>";
 
-        tmp += "<td style='background: " + getColorFromStatus(items[i]) +";'></td></tr>";
+        tmp += "<td style='background: " + getColorFromStatus(items[i]) + ";'></td></tr>";
 
         lis += tmp;
     }
 
-    $("#loadingTRItems").animate({
+    $("#loadingTR").animate({
         opacity: 0.25,
         height: "toggle"
     }, 300, function () {
@@ -91,11 +61,11 @@ function loadDetails(items) {
     $("#detailsTable").append(lis);
 }
 
-function getLink(item){
+function getLink(item) {
     var span = "<span class='bigText'>" + item.Name + "</span>";
 
     if (item.Link != null && item.Link != "") {
-        return "<a href='" + item.Link + "' target='_blank'>" + span + "</a>"       
+        return "<a href='" + item.Link + "' target='_blank'>" + span + "</a>"
     }
 
     return span;
@@ -164,32 +134,6 @@ function getItemStatusText(item) {
     }
 }
 
-/*
-$(document).ready(function () {
-    $(".master tbody tr.trClickable td").click(function () {
-
-        if (currentSelection != null) {
-            currentSelection.removeClass("trSelected");
-        }
-
-        $(this).parent('tr').addClass("trSelected");
-        currentSelection = $(this).parent('tr');
-
-        if (!isDetailsOpened) {
-            //Opening details
-            $('.details').css("display", "contents");
-            $('.master').css("display", "none");
-
-            isDetailsOpened = true;
-
-            $('#buttonsMaster').css("display", "none");
-            $('#buttonsDetails').css("display", "flex");
-
-            $('#menuOpener').removeClass('fa-bars');
-            $('#menuOpener').addClass('fa-arrow-left');
-            $('#title').text("Dettagli");
-        }
-
-    });
-
-});*/
+function goBack(){
+    window.open('mainTable.html?id=' + key, '_self', false);
+}
