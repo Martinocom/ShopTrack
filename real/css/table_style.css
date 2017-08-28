@@ -1,0 +1,38 @@
+.flatTable {
+    width: 100%;
+    min-width: 300px;
+    border-collapse: collapse;
+    font-weight: bold;
+    color: #6b6b6b;
+}
+
+.flatTable tr {
+    height: 50px;
+    background: white;
+    border-bottom: rgba(0, 0, 0, 0.05) 1px solid;
+}
+
+.flatTable td {
+    box-sizing: border-box;
+    padding-left: 15px;
+}
+
+.flatTable .headingTr {
+    height: 30px;
+    background: #2196F3;
+    color: #f6f3f7;
+    font-size: 10pt;
+    border: 0px solid;
+}
+
+.tdSmall {
+    width: 60px;
+}
+
+.tdMini {
+    width: 15px;
+}
+
+.trSelected td {
+    background: #F0F0F0;
+}
