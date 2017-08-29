@@ -40,11 +40,11 @@ function SignUp() {
     if (firebase.auth().currentUser) {
       firebase.auth().signOut();
     } else {
-      //var email = document.getElementById('email').value;
-      //var password = document.getElementById('password').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
 
-      var email = "prova@a.it";
-      var password = "123456789ST";
+      //var email = "prova@a.it";
+      //var password = "123456789ST";
 
       if (email.length < 4) {
         alert('Please enter an email address.');
@@ -65,17 +65,17 @@ function SignUp() {
         console.log(error);
         document.getElementById('btnSignIn').disabled = false;
       });
-      alert("Login Effettuato");
       
       firebase.auth().onAuthStateChanged(user => {
         if(user) {
+          alert("Login Effettuato");
+          document.getElementById('Login').style.display='none'
           console.log(user);
           console.log(user['uid']);
           //window.location = '../index.html';
-          document.cookie = "userID="+user['uid'];
+          document.cookie = user['uid'];
           var tmpcookie = document.cookie.split(';');
           console.log(tmpcookie[0]);
-          console.log(document.cookie.getElementById("userID"));
         }
       });
     }
@@ -85,6 +85,6 @@ function SignUp() {
   function LogOut(){
       firebase.auth().signOut();
       alert("Logout Effettuato");
-      document.cookie = "userID=";
+      document.cookie = "";
       document.getElementById('btnSignIn').disabled = false;
   }

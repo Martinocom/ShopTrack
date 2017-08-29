@@ -19,7 +19,7 @@
             <h3 class="logo">Shop Track</h3>
             <div>
                 <button id="btnSignIn" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" onclick="SignIn()"><i class="material-icons">account_circle</i> Shop Track </button>
-                <button id="btnSignIn2" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" onclick="document.getElementById('id01').style.display='block'"><i class="material-icons">account_circle</i> Google </button>
+                <button id="btnSignIn2" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" onclick="document.getElementById('Login').style.display='block'"><i class="material-icons">account_circle</i> Google </button>
                 <button id="btnSignIn" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Facebook </button>
                 <button id="btnLogOut" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" onclick="LogOut()"><i class="material-icons">account_circle</i> Log Out </button>
             </div>
@@ -27,27 +27,26 @@
             <div id="DivMargin">
                     <a onclick="SignUp()">Sei nuovo? Registrati è GRATIS!</a>
             </div>
-            <div id="id01" class="modal">
-                
+            <div id="Login" class="modal">
                 <form class="modal-content animate" action="/action_page.php">
                   <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="../images/icons/logo-ST.png" alt="Avatar" class="avatar">
+                    <span onclick="document.getElementById('Login').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="../images/icons/icon.png" alt="Avatar" class="avatar">
                   </div>
               
                   <div class="container">
                     <label><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <input type="text" placeholder="Enter Username" name="username" id = "email" required>
               
                     <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <input type="password" placeholder="Enter Password" name="password" id= "password" required>
                       
-                    <button type="submit">Login</button>
+                    <button type="submit" onclick="SignIn()">Login</button>
                   </div>
               
                   <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                    <span class="psw">Forgot <a href="#">password?</a></span>
+                    <button type="button" onclick="document.getElementById('Login').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw"><a href="#" style="color:blue;">Forgot password?</a></span>
                   </div>
                 </form>
             </div>
