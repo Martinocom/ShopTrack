@@ -25,10 +25,11 @@
             </div>
             </br></br>
             <div id="DivMargin">
-                    <a onclick="SignUp()">Sei nuovo? Registrati è GRATIS!</a>
+                    <a onclick="document.getElementById('NewUser').style.display='block'">Sei nuovo? Registrati è GRATIS!</a>
             </div>
+
             <div id="Login" class="modal">
-                <form class="modal-content animate" action="/action_page.php">
+                <form class="modal-content animate">
                   <div class="imgcontainer">
                     <span onclick="document.getElementById('Login').style.display='none'" class="close" title="Close Modal">&times;</span>
                     <img src="../images/icons/icon.png" alt="Avatar" class="avatar">
@@ -36,7 +37,7 @@
               
                   <div class="container">
                     <label><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="username" id = "email" required>
+                    <input type="text" placeholder="Enter Email" name="Email" id = "email" required>
               
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" id= "password" required>
@@ -47,6 +48,29 @@
                   <div class="container" style="background-color:#f1f1f1">
                     <button type="button" onclick="document.getElementById('Login').style.display='none'" class="cancelbtn">Cancel</button>
                     <span class="psw"><a href="#" style="color:blue;">Forgot password?</a></span>
+                  </div>
+                </form>
+            </div>
+
+            <div id="NewUser" class="modal">
+                <form class="modal-content animate">
+                  <div class="imgcontainer">
+                    <span onclick="document.getElementById('NewUser').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="../images/icons/icon.png" alt="Avatar" class="avatar">
+                  </div>
+              
+                  <div class="container">
+                    <label><b>Email</b></label>
+                    <input type="text" placeholder="Enter Email" name="email" id = "email" required>
+              
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="password" id= "password" required>
+                      
+                    <button type="submit" onclick="SignUp()">Registrati</button>
+                  </div>
+              
+                  <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('NewUser').style.display='none'" class="cancelbtn">Cancel</button>
                   </div>
                 </form>
             </div>
