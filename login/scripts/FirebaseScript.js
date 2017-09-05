@@ -88,3 +88,15 @@ function SignUp() {
       document.cookie = "";
       document.getElementById('btnSignIn').disabled = false;
   }
+
+  function WriteData(){
+    var cookie = document.cookie.split(';');
+    if(cookie[0] != ""){
+      firebase.database().ref('users/' + cookie[0]).set({
+        username: "LaDivisione",
+        password: "prova1234"
+      }).catch(function(error){
+        alert(error.message);
+      });
+    }
+  }
