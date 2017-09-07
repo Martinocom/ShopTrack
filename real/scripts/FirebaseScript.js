@@ -85,3 +85,15 @@ function LogOut(){
     document.getElementById('btnLogOut').disabled = false;
     windows.open('index.html','_self',false);
 }
+
+function WriteData(){
+  var cookie = document.cookie.split(';');
+  if(cookie[0] != ""){
+    firebase.database().ref('users/').set({
+      username: "LaDivisione",
+      password: "prova1234"
+    }).catch(function(error){
+      alert(error.message);
+    });
+  }
+}
