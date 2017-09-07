@@ -3,40 +3,48 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Shop Track | Add Order </title>
+        <title>Shop Track | Add Items </title>
 
         <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>       
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="scripts/FirebaseScript.js"></script>
-        <script src="scripts/AddOrders.js"></script>
+        <script src="scripts/AddItems.js"></script>
 
     </head>
     <body>
-        <div id="AddOrders" class="container">  
+        <div id="AddItems" class="container">  
             <center><h3>Shop Track</h3>
-            <h4>Add Order Form</h4></center>
+            <h4>Add Items Form</h4></center>
             <fieldset>
-              <label>Store:</label>
-              <select tabindex="1" required autofocus id="StoreSelect">
-                <option value="null">-- Select Store --</option>
-                <option value="0">Aliexpress</option>
-                <option value="1">Gearbest</option>
-                <option value="2">eBay</option>
-                <option value="3">Amazon</option>
-                <option value="4">Girada</option>
-                <option value="5">Altro</option>
-              </select>
+                <label>Name:</label>
+                <input placeholder="Item Name:" type="text" id="ItemName" tabindex="1" required >
             </fieldset>
             <fieldset>
-                <label>Order Date:</label>
-              <input placeholder="Order Date" type="date" id="OrderDate" tabindex="2" required >
+                <label>Link:</label>
+                <input placeholder="Link" type="url" id="Link" tabindex="2" required >
             </fieldset>
             <fieldset>
-              <label>Expected Arrival:</label>
-              <input placeholder="Expected Arrival" type="date" id="ExpectedArrival" tabindex="3" required>
+                <label>Details:</label>
+                <input placeholder="Details:" type="text" id="Details" tabindex="3" required >
             </fieldset>
             <fieldset>
-              <button type="submit" id="AddOrders-submit" onclick="WriteDataAddOrders()">Add Order</button>
+                <label>Price:</label>
+                <input placeholder="Price" type="text" id="Price" tabindex="4" required >
+            </fieldset>
+            <fieldset>
+                <label>Quantity:</label>
+                <input placeholder="Quantity" type="number" id="Quantity" tabindex="5" required >
+            </fieldset>
+            <fieldset>
+                <label>Buyer:</label>
+                <input placeholder="Buyes:" type="text" id="Buyer" tabindex="6" required >
+            </fieldset>
+            <fieldset>
+                <label>Payer:</label>
+                <input placeholder="Payer" type="text" id="Payer" tabindex="7" required >
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="AddItems-submit" onclick="">Add Items</button>
             </fieldset>
           </div>
     </body>
@@ -71,31 +79,32 @@
         position: relative;
         }
 
-        #AddOrders input[type="text"],
-        #AddOrders input[type="email"],
-        #AddOrders input[type="tel"],
-        #AddOrders input[type="url"],
-        #AddOrders textarea,
-        #AddOrders select,
-        #AddOrders button[type="submit"] {
+        #AddItems input[type="text"],
+        #AddItems input[type="email"],
+        #AddItems input[type="tel"],
+        #AddItems input[type="url"],
+        #AddItems input[type="number"],
+        #AddItems textarea,
+        #AddItems select,
+        #AddItems button[type="submit"] {
         font: 400 12px/16px "Roboto", Helvetica, Arial, sans-serif;
         }
 
-        #AddOrders {
+        #AddItems {
         background: #F9F9F9;
         padding: 25px;
         /*margin: 150px 0;*/
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
         }
 
-        #AddOrders h3 {
+        #AddItems h3 {
         display: block;
         font-size: 30px;
         font-weight: 300;
         margin-bottom: 10px;
         }
 
-        #AddOrders h4 {
+        #AddItems h4 {
         margin: 5px 0 15px;
         display: block;
         font-size: 13px;
@@ -110,12 +119,13 @@
         width: 100%;
         }
 
-        #AddOrders input[type="text"],
-        #AddOrders input[type="email"],
-        #AddOrders input[type="tel"],
-        #AddOrders input[type="url"],
-        #AddOrders input[type="date"],
-        #AddOrders select {
+        #AddItems input[type="text"],
+        #AddItems input[type="email"],
+        #AddItems input[type="tel"],
+        #AddItems input[type="url"],
+        #AddItems input[type="date"],
+        #AddItems input[type="number"],
+        #AddItems select {
         width: 100%;
         border: 1px solid #ccc;
         background: #FFF;
@@ -123,25 +133,26 @@
         padding: 10px;
         }
 
-        #AddOrders input[type="text"]:hover,
-        #AddOrders input[type="email"]:hover,
-        #AddOrders input[type="tel"]:hover,
-        #AddOrders input[type="url"]:hover,
-        #AddOrders input[type="date"]:hover,
-        #AddOrders select:hover {
+        #AddItems input[type="text"]:hover,
+        #AddItems input[type="email"]:hover,
+        #AddItems input[type="tel"]:hover,
+        #AddItems input[type="url"]:hover,
+        #AddItems input[type="date"]:hover,
+        #AddItems input[type="number"]:hover,
+        #AddItems select:hover {
         -webkit-transition: border-color 0.3s ease-in-out;
         -moz-transition: border-color 0.3s ease-in-out;
         transition: border-color 0.3s ease-in-out;
         border: 1px solid #aaa;
         }
 
-        #AddOrders select {
+        #AddItems select {
         /*height: 30px*/;
         max-width: 100%;
         resize: none;
         }
 
-        #AddOrders button[type="submit"] {
+        #AddItems button[type="submit"] {
         cursor: pointer;
         width: 100%;
         border: none;
@@ -152,14 +163,14 @@
         font-size: 15px;
         }
 
-        #AddOrders button[type="submit"]:hover {
+        #AddItems button[type="submit"]:hover {
         background: #43A047;
         -webkit-transition: background 0.3s ease-in-out;
         -moz-transition: background 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out;
         }
 
-        #AddOrders button[type="submit"]:active {
+        #AddItems button[type="submit"]:active {
         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
@@ -167,8 +178,8 @@
         text-align: center;
         }
 
-        #AddOrders input:focus,
-        #AddOrders select:focus {
+        #AddItems input:focus,
+        #AddItems select:focus {
         outline: 0;
         border: 1px solid #aaa;
         }

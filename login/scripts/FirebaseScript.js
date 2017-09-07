@@ -92,7 +92,7 @@ function SignUp() {
   function WriteData(){
     var cookie = document.cookie.split(';');
     if(cookie[0] != ""){
-      firebase.database().ref('users/' + cookie[0]).set({
+      firebase.database().ref('users/' + cookie[0]).push({
         username: "LaDivisione",
         password: "prova1234"
       }).catch(function(error){

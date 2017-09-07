@@ -29,29 +29,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
-function WriteDataAddOrders(){
-    var cookie = document.cookie.split(';');
-    if(cookie[0] != ""){
-            alert("Entrato");
-            firebase.database().ref('users/1').set({
-              Date: "LaDivisione",
-              DatePrev: "prova1234"
-            }).catch(function(error){
-              alert(error.message);
-            });
-          
-        /*if(document.getElementById("StoreSelect").value != 0){
-            firebase.database().ref('users/' + cookie[0]).set({
-                Date: document.getElementById("OrderDate").value,
-                DatePrev: document.getElementById("ExpectedArrival").value,
-                ID: "7",
-                Store: document.getElementById("StoreSelect").value
-            }).catch(function(error){
-                alert(error.message);
-            });
-        }else{
-            alert("Devi selezionare uno store");
-        }*/
-    }
-  }
