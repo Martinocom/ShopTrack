@@ -102,7 +102,7 @@ function WriteDataAddOrders(){
   var cookie = document.cookie.split(';');
   if(cookie[0] != ""){
       if(document.getElementById("StoreSelect").value != null){
-          firebase.database().ref('users/' + cookie[0] + '/orders/').set({
+          firebase.database().ref('users/' + cookie[0] + '/orders/').push({
               Date: document.getElementById("OrderDate").value,
               DatePrev: document.getElementById("ExpectedArrival").value,
               ID: "0",
@@ -116,32 +116,38 @@ function WriteDataAddOrders(){
   }
 }
 
-function WriteDataAddItems(idOrdine){
-  var cookie = document.cookie.split(';');
-  if(cookie[0] != ""){
-    /*firebase.database().ref('orders/' + idOrdine + '/Items').set({
-        PARAMETRI Items 
-        Details: document.getElementById("OrderDate").value,
-        ID: document.getElementById("OrderDate").value,
-        Name: document.getElementById("OrderDate").value,
-        Quantity: document.getElementById("OrderDate").value,
-        SinglePrice: document.getElementById("OrderDate").value,
-        Status: document.getElementById("OrderDate").value
-        
-    }).catch(function(error){
-        alert(error.message);
-    });*/
-    /*firebase.database().ref('orders/' + idOrdine + '/Items' + idItems + '/Payment').set({
-      PARAMETRI DEl Payment 
-        Ammount: document.getElementById("OrderDate").value,
-        Buyer: document.getElementById("OrderDate").value,
-        Date: document.getElementById("OrderDate").value,
-        IsOk: document.getElementById("OrderDate").value,
-        Payer: document.getElementById("OrderDate").value,
-        What: document.getElementById("OrderDate").value
-      
-    }).catch(function(error){
-        alert(error.message);
-    });*/
-  }
-}
+
+function WriteDataAddItems(){
+  
+      var cookie = document.cookie.split(';');
+      var idOrdine = document.getElementById("OrderID").value;
+      var idItem = document.getElementById("ItemID").value;
+
+      if(cookie[0] != ""){
+        firebase.database().ref('users/' + cookie[0] + '/orders/' + idOrdine + '/Items/' +idItem ).set({
+            //PARAMETRI Items 
+            Details: document.getElementById("Details").value,
+            ID: idItem,
+            Name: document.getElementById("ItemName").value,
+            Quantity: document.getElementById("Quantity").value,
+            SinglePrice: document.getElementById("Price").value,
+            Status: "0"
+            
+        }).catch(function(error){
+            alert(error.message);
+        });
+  
+        firebase.database().ref('users/' + cookie[0] + '/orders/' + idOrdine + '/Items/' +idItem + '/Payment/').set({
+          //PARAMETRI DEl Payment 
+            Ammount: document.getElementById("Quantity").value * document.getElementById("Price").value,
+            Buyer: document.getElementById("Buyer").value,
+            Date: document.getElementById("OrderDate").value,
+            IsOk: false,
+            Payer: document.getElementById("Payer").value,
+            What: document.getElementById("ItemName").value
+          
+        }).catch(function(error){
+            alert(error.message);
+        });
+      }
+    }

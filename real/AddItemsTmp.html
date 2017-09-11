@@ -16,6 +16,14 @@
             <center><h3>Shop Track</h3>
             <h4>Add Items Form</h4></center>
             <fieldset>
+                <label>Order ID</label>
+                <input placeholder="Ordier ID" type="text" id="OrderID" required >
+            </fieldset>
+            <fieldset>
+                <label>Item ID</label>
+                <input placeholder="Item ID" type="text" id="ItemID" required >
+            </fieldset>
+            <fieldset>
                 <label>Name:</label>
                 <input placeholder="Item Name:" type="text" id="ItemName" tabindex="1" required >
             </fieldset>
@@ -44,7 +52,7 @@
                 <input placeholder="Payer" type="text" id="Payer" tabindex="7" required >
             </fieldset>
             <fieldset>
-                <button type="submit" id="AddItems-submit" onclick="">Add Items</button>
+                <button type="submit" id="AddItems-submit" onclick="WriteDataAddItems()">Add Items</button>
             </fieldset>
           </div>
     </body>
