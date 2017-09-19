@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Lato;
+}
+
+.top {
+    display: flex;                  /* establish flex container */
+    flex-direction: row;            /* default value; can be omitted */
+    flex-wrap: nowrap;              /* default value; can be omitted */
+    justify-content: space-between; /* switched from default (flex-start, see below) */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 999;
+    background: #1976D2;
+}
+
+.main {
+    margin-top: 48px;
+}
+
+
+/* STACKPANEL implementation */
+.stackHorizontal {
+    display: flex;                  
+    flex-direction: row;           
+    flex-wrap: nowrap;              
+    justify-content: flex-start;
+}
+
+.stackHorizontal .title, .stackHorizontal .icon, .stackHorizontal .text, .button {
+    height: 48px;
+    min-width: 56px;
+    font-size: 17px;
+    line-height: 48px;
+}
+
+.stackHorizontal .title {
+    color: white;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.stackHorizontal .icon {
+    text-align: center;
+}
+
+.stackHorizontal .text {
+    padding-left: 15px;
+    text-align: left;
+}
+
+
+.button {
+    cursor: pointer;
+    color: white;
+    text-align: center;
+}
+.button:hover{
+    background: #2887e5;
+}
+.button.black {
+    color: #6b6b6b;
+}
+.button.black:hover {
+    background: #F0F0F0;
+}
+
+
+.stackHorizontal .button.accent {
+    background: #FF5252;
+}
+.stackHorizontal .button.accent:hover {
+    background: #ff7474;
+}
+
+
+.stackHorizontal.clickable {
+    cursor: pointer;
+    text-align: left;
+    color: black;
+    background: white;
+}
+.stackHorizontal.clickable:hover {
+    background: #F0F0F0;
+}
+
+.stackHorizontal.clickable.selected {
+    cursor: pointer;
+    color: white;
+    background: #1976D2;
+}
+.stackHorizontal.clickable.selected:hover {
+    background: #2887e5;
+}
+
+
+table tr * {
+    text-align: center;
+}
+
+table tr:not(.headingTr):hover td {
+    background: #fcfcfc;
+}
+
+table tr .store {
+    width: 20%;
+}
+
+table tr .date {
+    width: 30%;
+}
+
+table tr .total {
+    width: 30%;
+}
+
+table tr .details {
+    width: 20%;
+}
+
+
+.bigText {
+    font-size: 15px;
+}
+
+.normalText {
+    font-size: 11px;
+    line-height: 11px;
+}
+
+.smallText {
+    font-size: 9px;
+}
+
+.fa-ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 23px;
+}
+
+.fa-li {
+    left: -1.7em;
+}
+
+@media screen and (max-width: 450px) {
+    .fa-ul {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 23px;
+    }
+}

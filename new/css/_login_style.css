@@ -1,0 +1,90 @@
+ html, body {
+    font-family: 'Lato', 'Helvetica', sans-serif;
+}
+a {
+    text-decoration: underline;
+    color: #ffffff;
+    cursor: pointer;
+}
+a:hover {
+    color: #efefef
+}
+
+h1 {
+    line-height: 40px;
+    background: url('../images/icons/logo-ST.png') no-repeat;
+    background-size: 45px;
+    padding-left: 55px;
+    font-size: 30px;
+    vertical-align: center;
+}
+
+.btn {
+    cursor: pointer;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+    border-radius: 2;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.btn.shoptrack {
+    background: #01A8FA;
+}
+.btn.shoptrack:hover {
+    background: rgba(1, 168, 250, 0.73);
+}
+
+.btn.google {
+    background: #d72638;
+}
+.btn.google:hover {
+    background: rgba(215, 38, 56, 0.89);
+}
+
+.btn.facebook {
+    background: #003459;
+}
+.btn.facebook:hover {
+    background: rgba(0, 52, 89, 0.59);
+}
+
+.btn.logout {
+    color: #202020;
+    background: #ffffff;
+}
+.btn.logout:hover {
+    background: #efefef;
+}
+
+.btn i.fa {
+    font-size: 16px;
+}
+
+/* Background */
+
+#LoginForm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #028DD1, #004B87);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    flex-direction: column;
+}
+
+/* Margin */
+
+#DivMargin{
+    margin: 15px;
+}
